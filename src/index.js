@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import ShipSelector from './ShipSelection/ShipSelector.js'
+import PlayerGrid from './PlayerGrid/PlayerGrid.js'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
