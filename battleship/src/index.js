@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Game from './Game/Game.js'
+import ShipSelector from './ShipSelection/ShipSelector.js'
+import PlayerGrid from './PlayerGrid/PlayerGrid.js'
+
 
 // ========================================
 
 ReactDOM.render(
-  <Game />,
+  <ShipSelector />,
   document.getElementById('root')
 );
