@@ -1,15 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import ShipSelector from './ShipSelection/ShipSelector.js'
-import PlayerGrid from './PlayerGrid/PlayerGrid.js'
-import App from './App';
+import Controller from './controller';
 import reportWebVitals from './reportWebVitals';
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Controller />
   </React.StrictMode>,
   document.getElementById('root')
 );

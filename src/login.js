@@ -4,12 +4,14 @@ import Auth from "./loginComponents/auth";
 
 
 
-class App extends React.Component{
-  constructor(){
+class Login extends React.Component{
+  constructor(props){
     super();
     this.state = {
       email:"",
-      password:""
+      password:"",
+      status:"",
+      setStatus: props.setLoginStatus
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleChange2 = this.handleChange2.bind(this);
@@ -30,9 +32,12 @@ class App extends React.Component{
     // }else if (this.state.password == null || this.state.password ==''){
     //   console.log("enter password")
     // }else{
-      Auth(this.state.email, this.state.password);
+      var newStatus = await Auth(this.state.email, this.state.password)
       e.preventDefault();
-    // }
+      this.setState({status:newStatus})
+      this.state.setStatus(newStatus)
+      console.log(this.state.status)
+      // }
   }
 
   render(){
@@ -74,4 +79,4 @@ class App extends React.Component{
 }
 
 
-export default App;
+export default Login;
