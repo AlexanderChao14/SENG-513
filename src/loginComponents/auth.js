@@ -1,7 +1,5 @@
-
-
-
 function Auth(email, pass){
+    var status
     if(email == null || email == ''){
         console.log("Please use enter a email");
     } else if(pass == null || pass == ''){
@@ -27,12 +25,17 @@ function Auth(email, pass){
         
             
             if(res?.statusCode ===200) {
-              console.log(res);
-              console.log("you have been log in successfully");
-              
+                status = res.body.login
+                console.log(res);
+                console.log("you have been log in successfully");
+                console.log(status)
+                return status
+                
             }
             else {
+                status = res.body.login
                 console.log(res?.body?.message);
+                return status
             }
         })
         .catch((err) => {
