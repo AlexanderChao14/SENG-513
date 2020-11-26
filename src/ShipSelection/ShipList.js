@@ -25,7 +25,9 @@ export default class ShipList extends React.Component {
     return (
       <div id="play-ready">
         <p className="player-tip">Ships are in formation.</p>
-        <button id="Queue-button" onClick={this.state.startQueue}>
+        <button id="Queue-button" onClick={
+          this.state.startQueue
+          }>
           Start Queue
       </button>
       </div>

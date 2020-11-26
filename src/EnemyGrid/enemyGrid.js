@@ -6,11 +6,12 @@ import Board from './Board.js'
 
 
 
-export default class PlayerGrid extends React.Component {
+export default class EnemyGrid extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tableVals:props.tableVals
+            tableVals:props.tableVals,
+            onClick:props.onClick,
         };
     }
 
@@ -19,8 +20,9 @@ export default class PlayerGrid extends React.Component {
         return (
             <div className="game">
                 <div className="game-board">
-                    <Board title="Your Board" 
-                    tableVals={this.state.tableVals}/>
+                    <Board title="Enemies Grid" 
+                    tableVals={this.state.tableVals}
+                    onClick={this.state.onClick}/>
                 </div>
             </div>
         );

@@ -46,6 +46,7 @@ export default class ShipSelector extends React.Component {
             placedShips: [],
             availableShips: SHIPS,
             currentlyPlacing: null,
+            startQueue:props.startQueue,
             tableVals:[
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -63,12 +64,8 @@ export default class ShipSelector extends React.Component {
         this.placeShip=this.placeShip.bind(this);
         this.restartPlacement=this.restartPlacement.bind(this)
         this.rotateShip=this.rotateShip.bind(this)
+        this.queuePressed=this.queuePressed.bind(this)
 
-    }
-
-
-    startQueue() {
-        //TODO: backend integration and stuff starts here
     }
 
     selectShip(shipName){
@@ -137,6 +134,9 @@ export default class ShipSelector extends React.Component {
             this.setState({currentlyPlacing:updatedOrientation})
         }
     }
+    queuePressed(){
+        this.state.startQueue(this.state.tableVals)
+    }
 
     render() {
 
@@ -146,7 +146,7 @@ export default class ShipSelector extends React.Component {
                 availableShips={this.state.availableShips}
                 selectShip={this.selectShip}
                 currentlyPlacing={this.state.currentlyPlacing}
-                startQueue={this.startQueue}
+                startQueue={this.queuePressed}
                 restartPlacement={this.restartPlacement}
                 rotateShip={this.rotateShip}
                 />
