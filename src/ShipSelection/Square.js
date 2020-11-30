@@ -22,16 +22,26 @@ export default class Square extends React.Component {
     }
   
     render() {
+      let displayVal = this.state.val;
+      let color= '#000';
+      if (displayVal===0){
+        displayVal='';
+        color='#FFF'
+      }
+      else{
+        color = "#0f0"
+      }
       return (
         <td
           className="square"
           onClick={() =>{
             this.state.onClick();
             this.state.clickedCoord(this.state.col,this.state.row,this.state.val)
-          } 
           }
+          }
+          style={{backgroundColor:color}}
         >
-          {this.state.val}
+          {displayVal}
         </td>
       );
     }

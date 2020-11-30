@@ -35,8 +35,7 @@ export default class Square extends React.Component {
         <td
           className="square"
           onClick={() =>{
-            this.state.onClick();
-            this.state.clickedCoord(this.state.col,this.state.row,this.state.val)
+            this.state.onClick(this.state.col,this.state.row);
           }
           }
           style={{backgroundColor:color}}

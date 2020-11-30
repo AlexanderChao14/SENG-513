@@ -60,7 +60,7 @@ export default class Board extends React.Component {
           col={j}
           val={vals[i][j]}
           onClick={() => {
-            //console.log("col: " + j + ", row: " + i +", value: " + vals[i][j]);
+            // console.log("col: " + j + ", row: " + i +", value: " + vals[i][j]);
           }}
           clickedCoord={this.clickedCoord}
           hoverFunct={() => {

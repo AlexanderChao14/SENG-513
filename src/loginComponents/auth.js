@@ -1,8 +1,8 @@
-function Auth(email, pass){
+function Auth(email, pass, callback){
     var status
-    if(email == null || email == ''){
+    if(email == null || email === ''){
         console.log("Please use enter a email");
-    } else if(pass == null || pass == ''){
+    } else if(pass == null || pass === ''){
         console.log("plese eneter in real password");
     }else{
         var input = {
@@ -29,12 +29,14 @@ function Auth(email, pass){
                 console.log(res);
                 console.log("you have been log in successfully");
                 console.log(status)
+                callback(status)
                 return status
                 
             }
             else {
                 status = res.body.login
                 console.log(res?.body?.message);
+                callback(status)
                 return status
             }
         })
