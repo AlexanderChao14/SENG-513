@@ -13,6 +13,11 @@ export default class PlayerGrid extends React.Component {
             tableVals:props.tableVals
         };
     }
+    static getDerivedStateFromProps(props, state) {
+        return {
+          tableVals: props.tableVals,
+        };
+      }
 
     render() {
 

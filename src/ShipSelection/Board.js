@@ -10,7 +10,8 @@ export default class Board extends React.Component {
       tableVals: props.tableVals,
       currentlyPlacing: props.currentlyPlacing,
       rotateShip: props.rotateShip,
-      placeShip: props.placeShip
+      placeShip: props.placeShip,
+      updatePlayerGrid:props.updatePlayerGrid,
     };
     this.createTable = this.createTable.bind(this);
     this.clickedCoord = this.clickedCoord.bind(this);
@@ -142,9 +143,10 @@ export default class Board extends React.Component {
         }
       }
     }
-
-
+    
+    
     this.setState({tableVals:vals});
+    this.state.updatePlayerGrid()
   }
   render() {
 

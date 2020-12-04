@@ -29,14 +29,15 @@ function Auth(email, pass, callback){
                 console.log(res);
                 console.log("you have been log in successfully");
                 console.log(status)
-                callback(status)
+                console.log(email)
+                callback(status,email)
                 return status
                 
             }
             else {
                 status = res.body.login
                 console.log(res?.body?.message);
-                callback(status)
+                callback(status,email)
                 return status
             }
         })

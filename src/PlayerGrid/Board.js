@@ -8,9 +8,7 @@ export default class Board extends React.Component {
     this.state = {
       title: props.title,
       tableVals: props.tableVals,
-      currentlyPlacing: props.currentlyPlacing,
-      rotateShip: props.rotateShip,
-      placeShip: props.placeShip
+      onClick:props.onClick,
     };
     this.createTable = this.createTable.bind(this);
     this.clickedCoord = this.clickedCoord.bind(this);
@@ -18,10 +16,8 @@ export default class Board extends React.Component {
 
   static getDerivedStateFromProps(props, state) {
     return {
-      currentlyPlacing: props.currentlyPlacing,
-      rotateShip: props.rotateShip,
-      placeShip: props.placeShip,
       tableVals: props.tableVals,
+      onClick: props.onClick
     };
   }
 

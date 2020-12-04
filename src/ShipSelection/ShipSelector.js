@@ -7,7 +7,7 @@ import ShipList from './ShipList.js'
 const SHIPS = [
     {
         name: 'aircraftCarrier',
-        length: 5,
+        length: 4,
         placed: null,
         label: 'A'
     },
@@ -19,19 +19,19 @@ const SHIPS = [
     },
     {
         name: 'destroyer',
-        length: 2,
+        length: 3,
         placed: null,
         label: 'C'
     },
     {
         name: 'cruiser',
-        length: 3,
+        length: 2,
         placed: null,
         label: 'D'
     },
     {
         name: 'battleship',
-        length: 4,
+        length: 3,
         placed: null,
         label: 'E'
     },
@@ -47,6 +47,7 @@ export default class ShipSelector extends React.Component {
             availableShips: SHIPS,
             currentlyPlacing: null,
             startQueue:props.startQueue,
+            updatePlayerGrid:props.updatePlayerGrid,
             tableVals:[
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -65,8 +66,15 @@ export default class ShipSelector extends React.Component {
         this.restartPlacement=this.restartPlacement.bind(this)
         this.rotateShip=this.rotateShip.bind(this)
         this.queuePressed=this.queuePressed.bind(this)
+        this.setGrid=this.setGrid.bind(this)
 
     }
+    
+    static getDerivedStateFromProps(props, state) {
+        return {
+            startQueue:props.startQueue,
+        };
+      }
 
     selectShip(shipName){
         console.log(shipName)
@@ -138,6 +146,10 @@ export default class ShipSelector extends React.Component {
         this.state.startQueue(this.state.tableVals)
     }
 
+    setGrid(){
+        this.state.updatePlayerGrid(this.state.tableVals)
+    }
+
     render() {
 
         return (
@@ -155,7 +167,8 @@ export default class ShipSelector extends React.Component {
                     currentlyPlacing={this.state.currentlyPlacing}
                     rotateShip={this.rotateShip}
                     placeShip={this.placeShip}
-                    tableVals={this.state.tableVals}/>
+                    tableVals={this.state.tableVals}
+                    updatePlayerGrid={this.setGrid}/>
                 </div>
             </div>
         );
