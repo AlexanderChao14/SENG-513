@@ -18,24 +18,35 @@ export default class Square extends React.Component {
     static getDerivedStateFromProps(props, state) {
       return {
         val: props.val,
+        onClick:props.onClick,
       };
     }
   
     render() {
-      let displayVal = this.state.val;
+      let displayVal = this.state.val.toString();
       let color= '#000';
-      if (displayVal===0){
+      let clickFunct = this.state.onClick
+      if (displayVal.includes("0")){
         displayVal='';
         color='#FFF'
       }
       else{
-        color = "#0f0"
+        if(displayVal.includes("1")){
+          displayVal='X'
+          clickFunct = ()=>{}
+        }
+        if(this.state.val.length === 2){
+          color = "#0f0"
+        }
+        else{
+          color = "#F00"
+        }
       }
       return (
         <td
           className="square"
           onClick={() =>{
-            this.state.onClick(this.state.col,this.state.row);
+            clickFunct(this.state.col,this.state.row);
           }
           }
           style={{backgroundColor:color}}

@@ -18,6 +18,7 @@ export default class ShipList extends React.Component {
     return {
       availableShips: props.availableShips,
       currentlyPlacing: props.currentlyPlacing,
+      startQueue: props.startQueue,
     };
   }
 

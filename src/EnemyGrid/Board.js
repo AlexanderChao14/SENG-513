@@ -16,10 +16,8 @@ export default class Board extends React.Component {
 
   static getDerivedStateFromProps(props, state) {
     return {
-      currentlyPlacing: props.currentlyPlacing,
-      rotateShip: props.rotateShip,
-      placeShip: props.placeShip,
       tableVals: props.tableVals,
+      onClick: props.onClick
     };
   }
 

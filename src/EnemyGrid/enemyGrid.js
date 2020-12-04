@@ -14,6 +14,12 @@ export default class EnemyGrid extends React.Component {
             onClick:props.onClick,
         };
     }
+    static getDerivedStateFromProps(props, state) {
+        return {
+          tableVals: props.tableVals,
+          onClick: props.onClick
+        };
+      }
 
     render() {
 

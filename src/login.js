@@ -39,9 +39,9 @@ class Login extends React.Component {
     // }
   }
 
-  receiveLoginResponse(newStatus) {
+  receiveLoginResponse(newStatus,email) {
     this.setState({ status: newStatus })
-    this.state.setStatus(newStatus)
+    this.state.setStatus(newStatus,email)
     console.log(this.state.status)
   }
 
