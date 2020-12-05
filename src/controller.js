@@ -3,24 +3,14 @@ import Login from "./login"
 import Shipselector from "./ShipSelection/ShipSelector"
 import PlayerGrid from "./PlayerGrid/PlayerGrid"
 import EnemyGrid from "./EnemyGrid/enemyGrid"
+import Header from "./loginComponents/header"
+import Signup  from "./loginComponents/signup"
 
-
-export default class controller extends React.Component {
-    constructor() {
+export default class controller extends React.Component{
+    constructor(){
         super();
         this.state = {
-            status: "login",
-            //turnStatus: null,
-            playerArray: null,
-            enemyArray: null,
-            allShipsPlaced:false,
-            //socket:null,
-            id: null,
-            gameId: null,
-            //If there is a game avaliable from the server or not
-            gameAvailable: false,
-            gameRequested: false,
-            AcceptGameMSG: ""
+          status:""
         }
         // var socket;
         // socket = null;
@@ -30,23 +20,18 @@ export default class controller extends React.Component {
         this.updatePlayerGrid = this.updatePlayerGrid.bind(this);
         this.attack = this.attack.bind(this);
         this.goToShipSelect = this.goToShipSelect.bind(this);
+
+        this.destinationResponse = this.destinationResponse(this);
     }
 
-    loginResponse(newStatus, email) {
-        if (newStatus === true) {
-            console.log("Logged in as :" + email);
-            this.setState({ status: "ship select" });
-            this.setState({ id: email });
-            let s = new WebSocket(`wss://4kflhc6oo7.execute-api.us-east-1.amazonaws.com/dev?player=${email}`);
-            this.socket = s;
-            //this.setState({socket:s})
-            this.socket.onmessage = (event) => {
-                console.log(event.data);
-                this.handleEvent(event);
-            }
-        }
+    setStatus(newStatus){
+        this.setState({status:newStatus})
         // console.log(newStatus)
         console.log(this.state.status)
+    }
+
+    destinationResponse(newStatus){
+        this.setState({status:newStatus})
     }
 
     handleEvent(event) {
@@ -212,7 +197,16 @@ export default class controller extends React.Component {
     renderActiveComponent() {
         switch (this.state.status) {
             case "login":
-                return <Login setLoginStatus={this.loginResponse} />
+                return (<div>
+                            <Header setNewPage={this.destinationResponse}/> 
+                            <Login setLoginStatus={this.loginResponse} />
+                        </div>
+                        )
+            case "signup":
+                return (<div>
+                            <Header setNewPage={this.destinationResponse}/> 
+                            <Signup />
+                        </div>)
             case "ship select":
                 return (
                     <div>
@@ -264,7 +258,11 @@ export default class controller extends React.Component {
                     </div>
                 )
             default:
-                return <Login setLoginStatus={this.setStatus} />
+                return(<div>
+                    <Header setNewPage={this.destinationRespoonse}/> 
+                    <Login setLoginStatus={this.setStatus} />
+                    </div>) 
+                
         }
     }
 
@@ -272,7 +270,12 @@ export default class controller extends React.Component {
         //const isLogged=this.state.status
         return (
             <div>
-                {this.renderActiveComponent()}
+            {isLogged
+                
+                ? <Login setLoginStatus = {this.setStatus} />
+                :<Shipselector />
+                
+            }
             </div>
         )
     }
