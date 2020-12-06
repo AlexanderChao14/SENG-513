@@ -45,12 +45,13 @@ function AuthSignup(email, pass, firstname, lastname, passverify, callback){
                     console.log(res)
                     console.log("works")
                     console.log(status)
-                    callback(status)
+                    callback(status, res.body.message)
                     return status
                 }
                 else{
                     status = res.body.created
                     console.log(res?.body?.message)
+                    callback(status, res.body.message)
                     return status
 
                 }

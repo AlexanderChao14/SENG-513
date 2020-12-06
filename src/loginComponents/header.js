@@ -9,7 +9,7 @@ class Header extends React.Component{
         
         this.goToLogin = this.goToLogin.bind(this);
         this.goToSignUp = this.goToSignUp.bind(this);
-        // this.changePage = this.changePage.bind(this);
+        this.goToLost = this.goToLost.bind(this)
     }
 
     goToLogin(){
@@ -23,6 +23,11 @@ class Header extends React.Component{
         // this.changePage(this.state.destination)
     }
 
+    goToLost(){
+        var des = "lost"
+        this.state.setDestination(des)
+    }
+
     // changePage(destination){
     // }
 
@@ -33,6 +38,7 @@ class Header extends React.Component{
                     
                     <button name="toLogin" value ="toLogin" onClick={this.goToLogin}>Login Page</button>
                     <button name="toSignup"  value = "toSignup" onClick={this.goToSignUp}>Sign Up Page</button>
+                    <button name="toSignup"  value = "toLost" onClick={this.goToLost}>Lost Your Password?</button>
                 </div>
             );
         }

@@ -49,9 +49,11 @@ class Signup extends React.Component{
         e.preventDefault()
     }
 
-    reciveSignupResponse(newStatus){
+    reciveSignupResponse(newStatus,  message){
         this.setState({status:newStatus})
         this.state.setStatus(newStatus)
+        
+        alert(message)
         console.log(this.state.status)
     }
 
@@ -67,7 +69,7 @@ class Signup extends React.Component{
                         className="form-control" 
                         value={this.state.email}
                         onChange={this.handleChangeEmail}
-                        required></input>
+                        required>Email</input>
                 </div>
                 <div>
                     <label htmlFor="firstname">First Name:</label>
@@ -76,7 +78,7 @@ class Signup extends React.Component{
                         className="form-control" 
                         value={this.state.firstname}
                         onChange = {this.handleChangeFirstName}
-                        required></input>
+                        required>First Name</input>
                 </div>
                 <div>
                     <label htmlFor="lastname">Last Name:</label>
@@ -85,7 +87,7 @@ class Signup extends React.Component{
                         className="form-control" 
                         value={this.state.lastname}
                         onChange = {this.handleChangeLastName}
-                        required></input>
+                        required>Last Name</input>
                 </div>
                 <div>
                     <label htmlFor="password">Password:</label>
@@ -94,7 +96,7 @@ class Signup extends React.Component{
                         className="form-control" 
                         value={this.state.password}
                         onChange={this.handleChangePassword}
-                        required></input>
+                        required>Password</input>
                 </div>
                 <div>
                     <label htmlFor="password">Verify Password:</label>
@@ -103,7 +105,7 @@ class Signup extends React.Component{
                         className="form-control" 
                         value={this.state.passwordverify}
                         onChange={this.handleChangePasswordVerify}
-                        required></input>
+                        required>Verify Password</input>
                 </div>
                 <button type="submit" onClick={this.submit}>Sign Up</button>
             </form>

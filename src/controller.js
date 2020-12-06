@@ -5,6 +5,7 @@ import PlayerGrid from "./PlayerGrid/PlayerGrid"
 import EnemyGrid from "./EnemyGrid/enemyGrid"
 import Header from "./loginComponents/header"
 import Signup from "./loginComponents/signup"
+import Lost from "./loginComponents/lostpass"
 
 export default class controller extends React.Component {
     constructor() {
@@ -33,6 +34,7 @@ export default class controller extends React.Component {
         this.goToShipSelect = this.goToShipSelect.bind(this);
 
         this.destinationResponse = this.destinationResponse.bind(this);
+
     }
 
     loginResponse(newStatus, email) {
@@ -52,7 +54,7 @@ export default class controller extends React.Component {
         console.log(this.state.status)
     }
 
-    destinationResponse(newStatus){
+    destinationResponse(newStatus, message){
         this.setState({status:newStatus})
     }
 
@@ -230,6 +232,13 @@ export default class controller extends React.Component {
                         <Signup/>
                     </div>
                 )
+            case "lost":
+                return (
+                    <div>
+                        <Header setNewPage={this.destinationResponse}/>
+                        <Lost/>
+                    </div>
+                )
             case "ship select":
                 return (
                     <div>
@@ -292,6 +301,7 @@ export default class controller extends React.Component {
 
     render() {
         //const isLogged=this.state.status
+        
         return (
             <div>
                 {this.renderActiveComponent()}
