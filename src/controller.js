@@ -3,7 +3,8 @@ import Login from "./login"
 import Shipselector from "./ShipSelection/ShipSelector"
 import PlayerGrid from "./PlayerGrid/PlayerGrid"
 import EnemyGrid from "./EnemyGrid/enemyGrid"
-
+import Header from "./loginComponents/header"
+import Signup from "./loginComponents/signup"
 
 export default class controller extends React.Component {
     constructor() {
@@ -30,6 +31,8 @@ export default class controller extends React.Component {
         this.updatePlayerGrid = this.updatePlayerGrid.bind(this);
         this.attack = this.attack.bind(this);
         this.goToShipSelect = this.goToShipSelect.bind(this);
+
+        this.destinationResponse = this.destinationResponse(this);
     }
 
     loginResponse(newStatus, email) {
@@ -47,6 +50,10 @@ export default class controller extends React.Component {
         }
         // console.log(newStatus)
         console.log(this.state.status)
+    }
+
+    destinationResponse(newStatus){
+        this.setState({status:newStatus})
     }
 
     handleEvent(event) {
@@ -213,7 +220,17 @@ export default class controller extends React.Component {
     renderActiveComponent() {
         switch (this.state.status) {
             case "login":
-                return <Login setLoginStatus={this.loginResponse} />
+                return (<div>
+                        <Header setNewPage={this.destinationResponse}/>
+                        <Login setLoginStatus={this.loginResponse} />
+                    </div>)
+            case "signup":
+                return (
+                    <div>
+                        <Header setNewPage={this.destinationResponse}/>
+                        <Signup/>
+                    </div>
+                )
             case "ship select":
                 return (
                     <div>
@@ -265,7 +282,12 @@ export default class controller extends React.Component {
                     </div>
                 )
             default:
-                return <Login setLoginStatus={this.setStatus} />
+                return (<div>
+                        <Header setNewPage={this.destinationResponse}/>
+                            <Login setLoginStatus={this.setStatus} />
+
+                        </div>
+                        )
         }
     }
 
