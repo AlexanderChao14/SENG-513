@@ -176,7 +176,8 @@ export default class controller extends React.Component {
             gameId: this.state.gameId,
             email: this.state.id,
             x_cordinate: col,
-            y_cordinate: row
+            y_cordinate: row,
+            apiFromOrdinaryCall:"hi"
         };
 
         fetch("https://zy86pq19vd.execute-api.us-east-1.amazonaws.com/dev/gameengine", {
