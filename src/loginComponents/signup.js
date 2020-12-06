@@ -12,7 +12,8 @@ class Signup extends React.Component{
             lastname: "",
             passwordverify: "",
             status: ""
-        }    
+        } 
+        this.submit =  this.submit.bind(this)   
         this.handleChangeEmail = this.handleChangeEmail.bind(this)
         this.handleChangePassword = this.handleChangePassword.bind(this)
         this.handleChangeFirstName = this.handleChangeFirstName.bind(this)
@@ -42,8 +43,8 @@ class Signup extends React.Component{
             this.state.password,
             this.state.firstname,
             this.state.lastname,
-            this.state.passwordverifym,
-             this.reciveSignupResponse)
+            this.state.passwordverify,
+            this.reciveSignupResponse)
         console.log(newStatus)
         e.preventDefault()
     }
@@ -64,7 +65,8 @@ class Signup extends React.Component{
                     <input type ="email" 
                         placeholder="Email" 
                         className="form-control" 
-                        
+                        value={this.state.email}
+                        onChange={this.handleChangeEmail}
                         required></input>
                 </div>
                 <div>
@@ -72,7 +74,8 @@ class Signup extends React.Component{
                     <input type ="firstname" 
                         placeholder="Firstname" 
                         className="form-control" 
-                    
+                        value={this.state.firstname}
+                        onChange = {this.handleChangeFirstName}
                         required></input>
                 </div>
                 <div>
@@ -80,7 +83,8 @@ class Signup extends React.Component{
                     <input type ="lastname" 
                         placeholder="Lastname" 
                         className="form-control" 
-                    
+                        value={this.state.lastname}
+                        onChange = {this.handleChangeLastName}
                         required></input>
                 </div>
                 <div>
@@ -88,15 +92,17 @@ class Signup extends React.Component{
                     <input type ="password" 
                         placeholder="Password" 
                         className="form-control" 
-                    
+                        value={this.state.password}
+                        onChange={this.handleChangePassword}
                         required></input>
                 </div>
                 <div>
-                    <label htmlFor="email">Verify Password:</label>
+                    <label htmlFor="password">Verify Password:</label>
                     <input type ="password" 
                         placeholder="Verify Password" 
                         className="form-control" 
-                    
+                        value={this.state.passwordverify}
+                        onChange={this.handleChangePasswordVerify}
                         required></input>
                 </div>
                 <button type="submit" onClick={this.submit}>Sign Up</button>

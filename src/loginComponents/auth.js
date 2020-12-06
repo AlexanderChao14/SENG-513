@@ -11,7 +11,7 @@ function Auth(email, pass, callback){
         };
         console.log("input: ", input);
 
-        fetch("https://d0obxrkfta.execute-api.us-east-1.amazonaws.com/dev/login", {
+        fetch("http://battleship.us-east-1.elasticbeanstalk.com/login", {
         body: JSON.stringify(input),
         headers: {
             "Content-Type": "application/json"

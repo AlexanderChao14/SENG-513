@@ -1,6 +1,11 @@
 function AuthSignup(email, pass, firstname, lastname, passverify, callback){
     var status
-    if(email ==null || email.value ==''){
+    console.log(email)
+    console.log(pass)
+    console.log(firstname)
+    console.log(lastname)
+    console.log(passverify)
+    if(email ==null || email.value ===''){
         console.log("Please enter email")
     } else if(pass == null || pass === ''){
         console.log("Please enter pass");
@@ -11,18 +16,19 @@ function AuthSignup(email, pass, firstname, lastname, passverify, callback){
     else if(lastname == null || lastname === ''){
         console.log("Plese enter last name");
     }
-    else if(pass != passverify){
+    else if(pass !== passverify){
         console.log("Plese enter the same password");
     }
     else{
-        var input ={
-            firstname:firstname,
-            lastname:lastname,
-            email:email,
-            password: pass
-        }   
+        console.log("setting up")
+        var input = {
+            firstName:firstname,
+            lastName:lastname,
+            email: email,
+            password: pass,
+          };
         console.log("input: ", input);
-        fetch("https://d0obxrkfta.execute-api.us-east-1.amazonaws.com/dev/signup", {
+        fetch("http://battleship.us-east-1.elasticbeanstalk.com/signup", {
             body: JSON.stringify(input),
             headers: {
                 "Content-Type": "application/json"
@@ -33,17 +39,19 @@ function AuthSignup(email, pass, firstname, lastname, passverify, callback){
             .then((res) => {
                 console.log("Response", res);
                 // console.log("#################",res.body.login)
-        
+                console.log("Sending")
                 if(res?.statusCode ===200){
                     status = res.body.created
                     console.log(res)
                     console.log("works")
                     console.log(status)
-                    callback(status, email)
+                    callback(status)
+                    return status
                 }
                 else{
                     status = res.body.created
                     console.log(res?.body?.message)
+                    return status
 
                 }
                 //addNotification(res?.body?.message);

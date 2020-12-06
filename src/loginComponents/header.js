@@ -4,7 +4,6 @@ class Header extends React.Component{
     constructor(props){
         super();
         this.state={
-            destination: "",
             setDestination: props.setNewPage
         }
         
@@ -14,13 +13,11 @@ class Header extends React.Component{
     }
 
     goToLogin(){
-        this.setState({destination: "login"})
         var des = "login"
         this.state.setDestination(des)
         // this.changePage(this.state.destination)
     }
     goToSignUp(){
-        this.setState({destination: "signup"})
         var des = "signup"
         this.state.setDestination(des)
         // this.changePage(this.state.destination)

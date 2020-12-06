@@ -32,7 +32,7 @@ export default class controller extends React.Component {
         this.attack = this.attack.bind(this);
         this.goToShipSelect = this.goToShipSelect.bind(this);
 
-        this.destinationResponse = this.destinationResponse(this);
+        this.destinationResponse = this.destinationResponse.bind(this);
     }
 
     loginResponse(newStatus, email) {
@@ -283,7 +283,7 @@ export default class controller extends React.Component {
             default:
                 return (<div>
                         <Header setNewPage={this.destinationResponse}/>
-                            <Login setLoginStatus={this.setStatus} />
+                            <Login setLoginStatus={this.loginResponse} />
 
                         </div>
                         )
