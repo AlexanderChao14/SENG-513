@@ -22,7 +22,7 @@ class Verify extends React.Component{
                 <h1>Verify</h1>
                 <div> 
                 {this.waiting()}
-                    <p> Your verfied :D</p>
+                    <p> You are verfied :D</p>
                 </div>
             </div>
         )

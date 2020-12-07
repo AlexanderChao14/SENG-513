@@ -8,7 +8,7 @@ class ResetPass extends React.Component{
         super();
         this.state={
             password:"",
-            verify: "",
+            verify: ""
         }
         this.handle = this.handle.bind(this)
         this.handle2 = this.handle2.bind(this)
@@ -20,7 +20,7 @@ class ResetPass extends React.Component{
         this.setState({password: v.target.value})
     }
     handle2(v){
-        this.preventDefault({verify: v.target.value})
+        this.setState({verify: v.target.value})
     }
 
     submit(e){

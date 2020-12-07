@@ -47,13 +47,13 @@ function resetPassword(pass, verify) {
                 console.log("Response", res);
                 console.log("#################",res.body)
                 
-                if(res?.statusCode ===200) addNotification(res?.body?.message);
-                else addNotification(res?.body?.message);;
+                if(res?.statusCode ===200) console.log(res?.body?.message);
+                else console.log(res?.body?.message);;
                 
             })
             .catch((err) => {
                 console.log("###error: ",err);
-                addNotification("###error: ",err);
+                console.log("###error: ",err);
             });
         }
     }

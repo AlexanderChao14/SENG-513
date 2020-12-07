@@ -34,12 +34,12 @@ class Lost extends React.Component{
                 <h1>Lost Password</h1>
                 <form role="form">
                     <div>
-                        <label for="email">Enter Email to Rest Password</label>
+                        <label htmlFor="email"></label>
                         <input type="text" 
-                        class="form-control" 
+                        className="form-control" 
                         value={this.state.email}
                         onChange={this.handleChange}
-                        required>Email</input>
+                        required></input>
                         <button type="submit" onClick={this.submit}>Request Password Reset</button>
                     </div>
                 </form>

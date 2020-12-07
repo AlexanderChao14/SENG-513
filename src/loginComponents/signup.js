@@ -69,7 +69,7 @@ class Signup extends React.Component{
                         className="form-control" 
                         value={this.state.email}
                         onChange={this.handleChangeEmail}
-                        required>Email</input>
+                        required></input>
                 </div>
                 <div>
                     <label htmlFor="firstname">First Name:</label>
@@ -78,7 +78,7 @@ class Signup extends React.Component{
                         className="form-control" 
                         value={this.state.firstname}
                         onChange = {this.handleChangeFirstName}
-                        required>First Name</input>
+                        required></input>
                 </div>
                 <div>
                     <label htmlFor="lastname">Last Name:</label>
@@ -87,7 +87,7 @@ class Signup extends React.Component{
                         className="form-control" 
                         value={this.state.lastname}
                         onChange = {this.handleChangeLastName}
-                        required>Last Name</input>
+                        required></input>
                 </div>
                 <div>
                     <label htmlFor="password">Password:</label>
@@ -96,7 +96,7 @@ class Signup extends React.Component{
                         className="form-control" 
                         value={this.state.password}
                         onChange={this.handleChangePassword}
-                        required>Password</input>
+                        required></input>
                 </div>
                 <div>
                     <label htmlFor="password">Verify Password:</label>
@@ -105,7 +105,7 @@ class Signup extends React.Component{
                         className="form-control" 
                         value={this.state.passwordverify}
                         onChange={this.handleChangePasswordVerify}
-                        required>Verify Password</input>
+                        required></input>
                 </div>
                 <button type="submit" onClick={this.submit}>Sign Up</button>
             </form>
