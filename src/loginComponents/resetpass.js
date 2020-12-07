@@ -2,6 +2,8 @@ import React from "react"
 import resetPassword from "./authresetpass";
 import AuthResetPass from "./authresetpass"
 import Header from "./header"
+import {Link} from "react-router-dom"
+import "./othercomp.css"
 
 class ResetPass extends React.Component{
     constructor(props){
@@ -35,28 +37,43 @@ class ResetPass extends React.Component{
         alert(message)
     }
 
+    
+    // routeChange=()=>{
+    //     let path =  '/'
+    //     this.props.history.push(path)
+    // }
+
     render(){
         return(
             <div>
-                <Header/>
+                {/* <Header/> */}
                 <h1>Reset Password</h1>
+                <div id="inputarea">
                 <form role="form">
-                    <div>
-                        <label for="password">New Password</label>
+                    <div class="input">
+                        <label htmlFor="password">New Password</label>
                         <input type="password" 
-                        class="form-control"
+                        className="form-control"
+                        placeholder="New Password"
                         value={this.state.password}
                         onChange={this.handle}></input>
                     </div>
-                    <div>
-                        <label for="password">Verify New Password</label>
+                    <div class="input">
+                        <label htmlFor="password">Verify New Password</label>
                         <input type="password" 
-                        class="form-control"
+                        className="form-control"
+                        placeholder="Verify New Password"
                         value={this.state.verify}
                         onChange={this.handle2}></input>
                     </div>
-                    <button type="submit" onClick={this.submit}>Submit</button>
+                    <button class="enter2"type="submit" onClick={this.submit}>Submit</button>
                 </form>
+
+                </div>
+                <div id="link">
+
+                    <Link to="/">To Login</Link>
+                </div>
             </div>
         )
     }

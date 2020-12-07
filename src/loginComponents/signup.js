@@ -1,6 +1,7 @@
-import { render } from "@testing-library/react";
 import React from "react"
 import AuthSignup from "./authsignup"
+import "./comp.css"
+
 
 class Signup extends React.Component{
     constructor(props){
@@ -59,57 +60,60 @@ class Signup extends React.Component{
 
     render(){
         return(
-            <div>
-            <h1>Signup</h1>
-            <form role="form">
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input type ="email" 
-                        placeholder="Email" 
-                        className="form-control" 
-                        value={this.state.email}
-                        onChange={this.handleChangeEmail}
-                        required></input>
+            <div id="area">
+                <h1>Signup</h1>
+                <div id="inputarea">
+                <form role="form">
+                    <div class="input">
+                        <label htmlFor="email">Email:</label>
+                        <input type ="email" 
+                            placeholder="Email" 
+                            className="form-control" 
+                            value={this.state.email}
+                            onChange={this.handleChangeEmail}
+                            required></input>
+                    </div>
+                    <div class="input">
+                        <label htmlFor="firstname">First Name:</label>
+                        <input type ="firstname" 
+                            placeholder="Firstname" 
+                            className="form-control" 
+                            value={this.state.firstname}
+                            onChange = {this.handleChangeFirstName}
+                            required></input>
+                    </div>
+                    <div class="input">
+                        <label htmlFor="lastname">Last Name:</label>
+                        <input type ="lastname" 
+                            placeholder="Lastname" 
+                            className="form-control" 
+                            value={this.state.lastname}
+                            onChange = {this.handleChangeLastName}
+                            required></input>
+                    </div>
+                    <div class="input">
+                        <label htmlFor="password">Password:</label>
+                        <input type ="password" 
+                            placeholder="Password" 
+                            className="form-control" 
+                            value={this.state.password}
+                            onChange={this.handleChangePassword}
+                            required></input>
+                    </div>
+                    <div class="input">
+                        <label htmlFor="password">Verify Password:</label>
+                        <input type ="password" 
+                            placeholder="Verify Password" 
+                            className="form-control" 
+                            value={this.state.passwordverify}
+                            onChange={this.handleChangePasswordVerify}
+                            required></input>
+                    </div>
+                    <button class="enter" type="submit" onClick={this.submit}>Sign Up</button>
+                </form>
+
                 </div>
-                <div>
-                    <label htmlFor="firstname">First Name:</label>
-                    <input type ="firstname" 
-                        placeholder="Firstname" 
-                        className="form-control" 
-                        value={this.state.firstname}
-                        onChange = {this.handleChangeFirstName}
-                        required></input>
-                </div>
-                <div>
-                    <label htmlFor="lastname">Last Name:</label>
-                    <input type ="lastname" 
-                        placeholder="Lastname" 
-                        className="form-control" 
-                        value={this.state.lastname}
-                        onChange = {this.handleChangeLastName}
-                        required></input>
-                </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
-                    <input type ="password" 
-                        placeholder="Password" 
-                        className="form-control" 
-                        value={this.state.password}
-                        onChange={this.handleChangePassword}
-                        required></input>
-                </div>
-                <div>
-                    <label htmlFor="password">Verify Password:</label>
-                    <input type ="password" 
-                        placeholder="Verify Password" 
-                        className="form-control" 
-                        value={this.state.passwordverify}
-                        onChange={this.handleChangePasswordVerify}
-                        required></input>
-                </div>
-                <button type="submit" onClick={this.submit}>Sign Up</button>
-            </form>
-        </div>
+            </div>
         )
     }
 }

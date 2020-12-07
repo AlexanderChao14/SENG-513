@@ -1,6 +1,8 @@
 import React from "react"
 import AuthVerify from "./authverify"
 import Header from "./header"
+import {Link} from "react-router-dom"
+import "./othercomp.css"
 
 class Verify extends React.Component{
     constructor(props){
@@ -18,11 +20,15 @@ class Verify extends React.Component{
     render(){
         return(
             <div>
-                <Header/>
+                {/* <Header/> */}
                 <h1>Verify</h1>
                 <div> 
                 {this.waiting()}
                     <p> You are verfied :D</p>
+                </div>
+                <div id="link">
+                <Link to="/">To Login</Link>
+
                 </div>
             </div>
         )

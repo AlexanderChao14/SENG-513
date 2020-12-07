@@ -1,5 +1,6 @@
 import React from "react"
 import AuthLostPassword from "./authlostpass"
+import "./comp.css"
 
 class Lost extends React.Component{
     constructor(props){
@@ -30,19 +31,23 @@ class Lost extends React.Component{
 
     render(){
         return(
-            <div>
+            <div id="area">
                 <h1>Lost Password</h1>
-                <form role="form">
-                    <div>
-                        <label htmlFor="email"></label>
-                        <input type="text" 
-                        className="form-control" 
-                        value={this.state.email}
-                        onChange={this.handleChange}
-                        required></input>
-                        <button type="submit" onClick={this.submit}>Request Password Reset</button>
-                    </div>
-                </form>
+                <div id="inputarea">
+                    <form role="form">
+                        <div class="input">
+                            <label htmlFor="email">Email:</label>
+                            <input type="text" 
+                            className="form-control" 
+                            value={this.state.email}
+                            onChange={this.handleChange}
+                            placeholder="Email"
+                            required></input>
+                        </div>
+                        <button class="enter"type="submit" onClick={this.submit}>Request Password Reset</button>
+                    </form>
+
+                </div>
 
             </div>
         )

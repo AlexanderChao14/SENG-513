@@ -1,0 +1,82 @@
+h1{
+    text-align: center;
+    font-size: 28pt;
+    padding: 30px;
+    text-decoration: underline;
+}
+
+#inputarea{
+    display: grid;
+    grid-column: 2;
+    margin-left: 35%;
+    margin-right: 35%;
+    background-color: lightcyan;
+    width: auto;
+    height: auto;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 5px;
+}
+
+.input{
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 25px;
+    font-size: 16pt;
+}
+
+.input label{
+    grid-column-start: 1;
+    grid-column-end: 1;
+    font-size: 16pt;
+    padding-right: 20px;
+    padding-right: 20px;
+}
+
+.input input{
+    
+    grid-column-start: 2;
+    grid-column-end: 2;
+    border: 1px solid #ddd;
+    width: 50%;
+    height: 25px;
+    border-radius: 5px;
+}
+
+.enter2{
+    margin-left: 45%;
+    font-size: 16pt;
+    background-color:#eee;
+    text-shadow: 1px 1px 1px white;
+    border-radius: 5px;
+    padding: 4px;
+    align-items: center;
+}
+
+#link{
+    margin-top: 25px;
+    background-color: rgb(67, 231, 67);
+    width: 200px;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 20pt;
+    margin-left: 45%;
+    align-items: center;
+    text-align: center;
+    border-radius: 5px;
+    text-shadow: 1px 1px 1px gray;
+}
+
+#link :hover{
+    background-color: green;
+    width: 200px;
+    height: auto;
+}
+
+p{
+    text-align: center;
+    font-size: 20pt;
+}

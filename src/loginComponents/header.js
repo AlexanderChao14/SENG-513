@@ -1,4 +1,5 @@
 import React from "react";
+import "./headercss.css"
 
 class Header extends React.Component{
     constructor(props){
@@ -33,12 +34,13 @@ class Header extends React.Component{
 
     render(){
             return(
-                <div>
+                <div id="head">
                     <h1>Battleship</h1>
-                    
-                    <button name="toLogin" value ="toLogin" onClick={this.goToLogin}>Login Page</button>
-                    <button name="toSignup"  value = "toSignup" onClick={this.goToSignUp}>Sign Up Page</button>
-                    <button name="toSignup"  value = "toLost" onClick={this.goToLost}>Lost Your Password?</button>
+                    <div id="tab">
+                        <button name="toLogin" value ="toLogin" onClick={this.goToLogin}>Login Page</button>
+                        <button name="toSignup"  value = "toSignup" onClick={this.goToSignUp}>Sign Up Page</button>
+                        <button name="toSignup"  value = "toLost" onClick={this.goToLost}>Lost Your Password?</button>
+                    </div>
                 </div>
             );
         }
