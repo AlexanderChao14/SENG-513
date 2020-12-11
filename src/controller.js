@@ -36,6 +36,7 @@ export default class controller extends React.Component {
         this.updatePlayerGrid = this.updatePlayerGrid.bind(this);
         this.attack = this.attack.bind(this);
         this.goToShipSelect = this.goToShipSelect.bind(this);
+        this.waitingList = this.waitingList.bind(this);
 
         this.destinationResponse = this.destinationResponse.bind(this);
 
@@ -189,37 +190,21 @@ export default class controller extends React.Component {
             });
     }
 
-    //resets some state variables and goes to ship selector screen
-    goToShipSelect() {
-        this.setState({
-            status: "ship select",
-            playerArray: null,
-            enemyArray: null,
-            gameId: null,
-            gameAvailable: false,
-            gameRequested: false,
-        })
-    }
+    waitingList() {
+        console.log("In waiting list")
+        this.setState({ gameRequested: true })
 
-    attack(row, col, valOfSquare) {
-        // if (valOfSquare.toString().includes("1")) {
-        //     return;
-        // }
-        console.log("Attack coordinates, Col:" + col + ", Row:" + row)
-        console.log("game id is : " + this.state.gameId)
-        var input = {
-            gameId: this.state.gameId,
+        let input = {
             email: this.state.id,
-            x_cordinate: col,
-            y_cordinate: row
+            grid: this.state.playerArray,
         };
 
-        fetch("https://zy86pq19vd.execute-api.us-east-1.amazonaws.com/dev/gameengine", {
+        fetch("https://zy86pq19vd.execute-api.us-east-1.amazonaws.com/dev/waitinglist", {
             body: JSON.stringify(input),
             headers: {
                 "Content-Type": "application/json"
             },
-            method: "PUT",
+            method: "POST",
         })
             .then(response => response.json())
             .then((res) => {
@@ -235,6 +220,60 @@ export default class controller extends React.Component {
                 console.log("###error: ", err);
                 //addNotification("###error: ",err);
             });
+    }
+
+    //resets some state variables and goes to ship selector screen
+    goToShipSelect() {
+        this.setState({
+            status: "ship select",
+            playerArray: null,
+            enemyArray: null,
+            gameId: null,
+            gameAvailable: false,
+            gameRequested: false,
+        })
+    }
+
+    attack(row, col, valOfSquare) {
+
+        console.log("Attack coordinates, Col:" + col + ", Row:" + row)
+        console.log("game id is : " + this.state.gameId)
+        // var input = {
+        //     gameId: this.state.gameId,
+        //     email: this.state.id,
+        //     x_cordinate: col,
+        //     y_cordinate: row
+        // };
+
+        let mess={"action" : "onGame" , "data" : {
+            gameId:this.state.gameId,
+            email:this.state.id,
+            x_cordinate:col,
+            y_cordinate:row
+        }}
+        let sendGame=JSON.stringify(mess)
+        this.state.socket.send(sendGame);
+        // fetch("https://zy86pq19vd.execute-api.us-east-1.amazonaws.com/dev/gameengine", {
+        //     body: JSON.stringify(input),
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     method: "PUT",
+        // })
+        //     .then(response => response.json())
+        //     .then((res) => {
+        //         console.log("Response", res);
+        //         if (res?.statusCode === 200) {
+        //             console.log(res);
+        //         }
+        //         else {
+        //             console.log(res);
+        //         }
+        //     })
+        //     .catch((err) => {
+        //         console.log("###error: ", err);
+        //         //addNotification("###error: ",err);
+        //     });
     }
 
     //Only used for shipselector stage. Otherwise, grid is sent by server
@@ -278,7 +317,8 @@ export default class controller extends React.Component {
                     <div>
                         <PreGameHeader setNewPage={this.destinationResponse} />
                         <Shipselector startQueue={
-                            !this.state.gameAvailable ? this.startQueue : this.acceptGame
+                            // !this.state.gameAvailable ? this.waitingList : 
+                            this.waitingList
                         }
                             updatePlayerGrid={this.updatePlayerGrid} />
                     </div>
