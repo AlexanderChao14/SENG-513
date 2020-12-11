@@ -1,5 +1,7 @@
 function Auth(email, pass, callback){
     var status
+    var userRole
+    var first
     if(email == null || email === ''){
         console.log("Please use enter a email");
     } else if(pass == null || pass === ''){
@@ -26,18 +28,22 @@ function Auth(email, pass, callback){
             
             if(res?.statusCode ===200) {
                 status = res.body.login
+                first=res.body.firstName
                 console.log(res);
                 console.log("you have been log in successfully");
                 console.log(status)
                 console.log(email)
-                callback(status,email)
+                userRole = res.body.role
+                callback(status,email, userRole, first)
                 return status
                 
             }
             else {
                 status = res.body.login
+                first=res.body.firstName
+                userRole = res.body.role
                 console.log(res?.body?.message);
-                callback(status,email)
+                callback(status,email, userRole,first)
                 return status
             }
         })

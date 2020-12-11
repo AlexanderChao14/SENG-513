@@ -12,7 +12,8 @@ class Login extends React.Component {
       email: "",
       password: "",
       status: "",
-      setStatus: props.setLoginStatus
+      setStatus: props.setLoginStatus,
+      role:""
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleChange2 = this.handleChange2.bind(this);
@@ -40,10 +41,12 @@ class Login extends React.Component {
     // }
   }
 
-  receiveLoginResponse(newStatus,email) {
+  receiveLoginResponse(newStatus,email, role, firstname) {
     this.setState({ status: newStatus })
-    this.state.setStatus(newStatus,email)
+    this.setState({role:role})
+    this.state.setStatus(newStatus,email,role, firstname)
     console.log(this.state.status)
+    console.log(this.state.role)
   }
 
   render() {
@@ -52,7 +55,7 @@ class Login extends React.Component {
         <h1>Login Page</h1>
         <div id="inputarea">
           <form role="form" id="login-form">
-            <div class="input">
+            <div className="input">
               <label htmlFor="email">Email:</label>
               <input name="email"
                 type="email"
@@ -63,7 +66,7 @@ class Login extends React.Component {
                 onChange={this.handleChange}
                 required></input>
             </div>
-            <div class="input">
+            <div className="input">
               <label htmlFor="password">Password:</label>
               <input name="password"
                 type="password"
@@ -74,7 +77,7 @@ class Login extends React.Component {
                 onChange={this.handleChange2}
                 required></input>
             </div>
-          <button class="enter" type="submit"
+          <button className="enter" type="submit"
                 id="login-button"
                 onClick={this.submit}>Login</button>
           </form>

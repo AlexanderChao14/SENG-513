@@ -6,6 +6,7 @@ import EnemyGrid from "./EnemyGrid/enemyGrid"
 import Header from "./loginComponents/header"
 import Signup from "./loginComponents/signup"
 import Lost from "./loginComponents/lostpass"
+import Admin from "./adminComponents/admin"
 
 export default class controller extends React.Component {
     constructor() {
@@ -37,18 +38,33 @@ export default class controller extends React.Component {
 
     }
 
-    loginResponse(newStatus, email) {
+    loginResponse(newStatus, email,role, first) {
         if (newStatus === true) {
             console.log("Logged in as :" + email);
-            this.setState({ status: "ship select" });
-            this.setState({ id: email });
-            let s = new WebSocket(`wss://4kflhc6oo7.execute-api.us-east-1.amazonaws.com/dev?player=${email}`);
-            this.socket = s;
-            //this.setState({socket:s})
-            this.socket.onmessage = (event) => {
-                console.log(event.data);
-                this.handleEvent(event);
+
+            if(role === "Admin"){
+                this.setState({status:"admin"})
+                sessionStorage.setItem("firstName", first);
+                sessionStorage.setItem("Email", email);
+                sessionStorage.setItem("Login", "true");
+                sessionStorage.setItem("Role", role);
+            }else{
+                this.setState({ status: "ship select" });
+                this.setState({ id: email });
+                sessionStorage.setItem("firstName", first);
+                sessionStorage.setItem("Email", email);
+                sessionStorage.setItem("Login", "true");
+                sessionStorage.setItem("Role", role);
+                let s = new WebSocket(`wss://4kflhc6oo7.execute-api.us-east-1.amazonaws.com/dev?player=${email}`);
+                this.socket = s;
+                //this.setState({socket:s})
+                this.socket.onmessage = (event) => {
+                    console.log(event.data);
+                    this.handleEvent(event);
+                }
+
             }
+
         }
         // console.log(newStatus)
         console.log(this.state.status)
@@ -219,6 +235,8 @@ export default class controller extends React.Component {
     }
 
     renderActiveComponent() {
+
+        
         switch (this.state.status) {
             case "login":
                 return (<div>
@@ -237,6 +255,12 @@ export default class controller extends React.Component {
                     <div>
                         <Header setNewPage={this.destinationResponse}/>
                         <Lost/>
+                    </div>
+                )
+            case "admin":
+                return(
+                    <div>
+                        <Admin/>
                     </div>
                 )
             case "ship select":
@@ -301,6 +325,17 @@ export default class controller extends React.Component {
 
     render() {
         //const isLogged=this.state.status
+        //Add a logout
+        //TODO
+            // if(sessionStorage.getItem("Login") ==="true"){
+            //     if(sessionStorage.getItem("Role") === "Admin"){
+            //         this.setState({status: "admin"})
+            //     }
+            //     else{
+            //         this.setState({status:"login"})
+            //     }
+            // }
+        
         
         return (
             <div>

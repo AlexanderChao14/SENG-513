@@ -14,7 +14,7 @@ ReactDOM.render(
       <Switch>
         <Route exact path ="/" component={Controller}/>
         <Route exact path ="/verify/" component={Verify}/>
-        <Route exact path="/resetpass/" component={ResetPass}/>
+        <Route exact path="/resetpassword/" component={ResetPass}/>
         <Redirect from="*" to="/"/>
       </Switch>
     
