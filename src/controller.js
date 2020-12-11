@@ -1,9 +1,10 @@
 import React from "react"
 import Login from "./login"
-import Shipselector from "./ShipSelection/ShipSelector"
+import Shipselector from "./PreGame/ShipSelector"
 import PlayerGrid from "./PlayerGrid/PlayerGrid"
 import EnemyGrid from "./EnemyGrid/enemyGrid"
 import RankList from "./RankList/RankList"
+import PreGameHeader from "./PreGame/PreGameHeader"
 
 import Header from "./loginComponents/header"
 import Signup from "./loginComponents/signup"
@@ -19,7 +20,7 @@ export default class controller extends React.Component {
             playerArray: null,
             enemyArray: null,
             allShipsPlaced: false,
-            //socket:null,
+            socket:null,
             id: null,
             gameId: null,
             //If there is a game avaliable from the server or not
@@ -40,17 +41,17 @@ export default class controller extends React.Component {
 
     }
 
-    loginResponse(newStatus, email,role, first) {
+    loginResponse(newStatus, email, role, first) {
         if (newStatus === true) {
             console.log("Logged in as :" + email);
 
-            if(role === "Admin"){
-                this.setState({status:"admin"})
+            if (role === "Admin") {
+                this.setState({ status: "admin" })
                 sessionStorage.setItem("firstName", first);
                 sessionStorage.setItem("Email", email);
                 sessionStorage.setItem("Login", "true");
                 sessionStorage.setItem("Role", role);
-            }else{
+            } else {
                 this.setState({ status: "ship select" });
                 this.setState({ id: email });
                 sessionStorage.setItem("firstName", first);
@@ -59,7 +60,7 @@ export default class controller extends React.Component {
                 sessionStorage.setItem("Role", role);
                 let s = new WebSocket(`wss://4kflhc6oo7.execute-api.us-east-1.amazonaws.com/dev?player=${email}`);
                 this.socket = s;
-                //this.setState({socket:s})
+                this.setState({socket:s})
                 this.socket.onmessage = (event) => {
                     console.log(event.data);
                     this.handleEvent(event);
@@ -72,8 +73,8 @@ export default class controller extends React.Component {
         console.log(this.state.status)
     }
 
-    destinationResponse(newStatus, message){
-        this.setState({status:newStatus})
+    destinationResponse(newStatus, message) {
+        this.setState({ status: newStatus })
     }
 
     handleEvent(event) {
@@ -201,6 +202,9 @@ export default class controller extends React.Component {
     }
 
     attack(row, col, valOfSquare) {
+        // if (valOfSquare.toString().includes("1")) {
+        //     return;
+        // }
         console.log("Attack coordinates, Col:" + col + ", Row:" + row)
         console.log("game id is : " + this.state.gameId)
         var input = {
@@ -242,41 +246,55 @@ export default class controller extends React.Component {
 
     renderActiveComponent() {
 
-        
+
         switch (this.state.status) {
             case "login":
                 return (<div>
-                        <Header setNewPage={this.destinationResponse}/>
-                        <Login setLoginStatus={this.loginResponse} />
-                    </div>)
+                    <Header setNewPage={this.destinationResponse} />
+                    <Login setLoginStatus={this.loginResponse} />
+                </div>)
             case "signup":
                 return (
                     <div>
-                        <Header setNewPage={this.destinationResponse}/>
-                        <Signup/>
+                        <Header setNewPage={this.destinationResponse} />
+                        <Signup />
                     </div>
                 )
             case "lost":
                 return (
                     <div>
-                        <Header setNewPage={this.destinationResponse}/>
-                        <Lost/>
+                        <Header setNewPage={this.destinationResponse} />
+                        <Lost />
                     </div>
                 )
             case "admin":
-                return(
+                return (
                     <div>
-                        <Admin/>
+                        <Admin />
                     </div>
                 )
             case "ship select":
                 return (
                     <div>
+                        <PreGameHeader setNewPage={this.destinationResponse} />
                         <Shipselector startQueue={
                             !this.state.gameAvailable ? this.startQueue : this.acceptGame
                         }
                             updatePlayerGrid={this.updatePlayerGrid} />
-                        {/* <button onClick={() => this.acceptGame(this.state.AcceptGameMSG)}>Accept Game</button> */}
+                    </div>
+                )
+            case "rankings":
+                return (
+                    <div>
+                        <PreGameHeader setNewPage={this.destinationResponse} />
+                        <RankList />
+                    </div>
+                )
+            case "how to play":
+                return (
+                    <div>
+                        <PreGameHeader setNewPage={this.destinationResponse} />
+                        <h1>TODO</h1>
                     </div>
                 )
             case "game":
@@ -328,11 +346,11 @@ export default class controller extends React.Component {
                 )
             default:
                 return (<div>
-                        <Header setNewPage={this.destinationResponse}/>
-                            <Login setLoginStatus={this.loginResponse} />
+                    <Header setNewPage={this.destinationResponse} />
+                    <Login setLoginStatus={this.loginResponse} />
 
-                        </div>
-                        )
+                </div>
+                )
         }
     }
 
@@ -340,16 +358,16 @@ export default class controller extends React.Component {
         //const isLogged=this.state.status
         //Add a logout
         //TODO
-            // if(sessionStorage.getItem("Login") ==="true"){
-            //     if(sessionStorage.getItem("Role") === "Admin"){
-            //         this.setState({status: "admin"})
-            //     }
-            //     else{
-            //         this.setState({status:"login"})
-            //     }
-            // }
-        
-        
+        // if(sessionStorage.getItem("Login") ==="true"){
+        //     if(sessionStorage.getItem("Role") === "Admin"){
+        //         this.setState({status: "admin"})
+        //     }
+        //     else{
+        //         this.setState({status:"login"})
+        //     }
+        // }
+
+
         return (
             <div>
                 {this.renderActiveComponent()}

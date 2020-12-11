@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom'
 import Verify  from "./loginComponents/verify"
 import ResetPass from "./loginComponents/resetpass"
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
   <React.StrictMode>

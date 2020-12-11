@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button'
 
 export default class ShipDisplay extends React.Component {
     constructor(props) {
@@ -15,7 +16,7 @@ export default class ShipDisplay extends React.Component {
     render() {
         let ship = this.state.availableShips.find((item) => item.name === this.state.shipName);
         return (
-            <button
+            <Button variant="info"
                 id={this.state.shipName}
                 onClick={() =>
                     this.state.selectShip(this.state.shipName)
@@ -26,7 +27,7 @@ export default class ShipDisplay extends React.Component {
                 <div className="shipname">{this.state.shipName + " "}</div>
                 <div className="shiplength">{ship.length}</div>
 
-            </button>
+            </Button>
         );
     }
 }

@@ -50,7 +50,7 @@ export default class RankList extends React.Component {
 
     return (
       <div>
-        <Table key="ranktable">
+        <Table striped bordered hover key="ranktable">
           <thead key="thead1">
             <tr key="headers">
               <td key="winCount"># of Wins</td>

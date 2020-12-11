@@ -1,5 +1,6 @@
 import React from 'react';
 import ShipDisplay from './ShipDisplay.js';
+import Button from 'react-bootstrap/Button'
 
 export default class ShipList extends React.Component {
   constructor(props) {
@@ -26,11 +27,11 @@ export default class ShipList extends React.Component {
     return (
       <div id="play-ready">
         <p className="player-tip">Ships are in formation.</p>
-        <button id="Queue-button" onClick={
+        <Button variant="success" id="Queue-button" onClick={
           this.state.startQueue
           }>
           Start Queue
-      </button>
+      </Button>
       </div>
     )
   }
@@ -55,17 +56,17 @@ export default class ShipList extends React.Component {
         <div id="ship-section">
           {this.RenderAvailableShips()}
         </div>
-        <button onClick={this.state.rotateShip}>
+        <Button variant="outline-primary" onClick={this.state.rotateShip}>
           Rotate Ship
-        </button>
+        </Button>
       </div>
     )
   }
   renderRestartButton() {
     return (
-      <button onClick={this.state.restartPlacement}>
+      <Button variant="outline-primary" onClick={this.state.restartPlacement}>
         Restart Placement
-      </button>
+      </Button>
     )
   }
 
