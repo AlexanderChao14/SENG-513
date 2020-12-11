@@ -3,6 +3,7 @@ import Login from "./login"
 import Shipselector from "./ShipSelection/ShipSelector"
 import PlayerGrid from "./PlayerGrid/PlayerGrid"
 import EnemyGrid from "./EnemyGrid/enemyGrid"
+import RankList from "./RankList/RankList"
 
 
 export default class controller extends React.Component {
@@ -13,7 +14,7 @@ export default class controller extends React.Component {
             //turnStatus: null,
             playerArray: null,
             enemyArray: null,
-            allShipsPlaced:false,
+            allShipsPlaced: false,
             //socket:null,
             id: null,
             gameId: null,
@@ -70,6 +71,10 @@ export default class controller extends React.Component {
             case "lose":
                 this.setState({ status: "lose" })
                 break;
+            case "TERMINATE":
+                this.setState({ status: "terminate" })
+                break;
+
             default:
                 break;
         }
@@ -203,8 +208,8 @@ export default class controller extends React.Component {
     }
 
     //Only used for shipselector stage. Otherwise, grid is sent by server
-    updatePlayerGrid(grid,isDone) {
-        this.setState({ playerArray: grid,allShipsPlaced:isDone })
+    updatePlayerGrid(grid, isDone) {
+        this.setState({ playerArray: grid, allShipsPlaced: isDone })
         console.log("grid updated")
         console.log(grid)
     }
@@ -212,13 +217,18 @@ export default class controller extends React.Component {
     renderActiveComponent() {
         switch (this.state.status) {
             case "login":
-                return <Login setLoginStatus={this.loginResponse} />
+                return (
+                    <div>
+                        <Login setLoginStatus={this.loginResponse} />
+                        <RankList/>
+                    </div>
+                )
             case "ship select":
                 return (
                     <div>
                         <Shipselector startQueue={
                             !this.state.gameAvailable ? this.startQueue : this.acceptGame
-                            } 
+                        }
                             updatePlayerGrid={this.updatePlayerGrid} />
                         {/* <button onClick={() => this.acceptGame(this.state.AcceptGameMSG)}>Accept Game</button> */}
                     </div>
@@ -260,6 +270,13 @@ export default class controller extends React.Component {
                 return (
                     <div>
                         <h1>You lose! :(</h1>
+                        <button onClick={() => this.goToShipSelect()}>Play another game</button>
+                    </div>
+                )
+            case "terminate":
+                return (
+                    <div>
+                        <h1>Your opponent left the game. The game has been terminated</h1>
                         <button onClick={() => this.goToShipSelect()}>Play another game</button>
                     </div>
                 )
