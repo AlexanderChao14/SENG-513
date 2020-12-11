@@ -5,6 +5,10 @@ import PlayerGrid from "./PlayerGrid/PlayerGrid"
 import EnemyGrid from "./EnemyGrid/enemyGrid"
 import RankList from "./RankList/RankList"
 
+import Header from "./loginComponents/header"
+import Signup from "./loginComponents/signup"
+import Lost from "./loginComponents/lostpass"
+import Admin from "./adminComponents/admin"
 
 export default class controller extends React.Component {
     constructor() {
@@ -31,23 +35,45 @@ export default class controller extends React.Component {
         this.updatePlayerGrid = this.updatePlayerGrid.bind(this);
         this.attack = this.attack.bind(this);
         this.goToShipSelect = this.goToShipSelect.bind(this);
+
+        this.destinationResponse = this.destinationResponse.bind(this);
+
     }
 
-    loginResponse(newStatus, email) {
+    loginResponse(newStatus, email,role, first) {
         if (newStatus === true) {
             console.log("Logged in as :" + email);
-            this.setState({ status: "ship select" });
-            this.setState({ id: email });
-            let s = new WebSocket(`wss://4kflhc6oo7.execute-api.us-east-1.amazonaws.com/dev?player=${email}`);
-            this.socket = s;
-            //this.setState({socket:s})
-            this.socket.onmessage = (event) => {
-                console.log(event.data);
-                this.handleEvent(event);
+
+            if(role === "Admin"){
+                this.setState({status:"admin"})
+                sessionStorage.setItem("firstName", first);
+                sessionStorage.setItem("Email", email);
+                sessionStorage.setItem("Login", "true");
+                sessionStorage.setItem("Role", role);
+            }else{
+                this.setState({ status: "ship select" });
+                this.setState({ id: email });
+                sessionStorage.setItem("firstName", first);
+                sessionStorage.setItem("Email", email);
+                sessionStorage.setItem("Login", "true");
+                sessionStorage.setItem("Role", role);
+                let s = new WebSocket(`wss://4kflhc6oo7.execute-api.us-east-1.amazonaws.com/dev?player=${email}`);
+                this.socket = s;
+                //this.setState({socket:s})
+                this.socket.onmessage = (event) => {
+                    console.log(event.data);
+                    this.handleEvent(event);
+                }
+
             }
+
         }
         // console.log(newStatus)
         console.log(this.state.status)
+    }
+
+    destinationResponse(newStatus, message){
+        this.setState({status:newStatus})
     }
 
     handleEvent(event) {
@@ -215,12 +241,32 @@ export default class controller extends React.Component {
     }
 
     renderActiveComponent() {
+
+        
         switch (this.state.status) {
             case "login":
+                return (<div>
+                        <Header setNewPage={this.destinationResponse}/>
+                        <Login setLoginStatus={this.loginResponse} />
+                    </div>)
+            case "signup":
                 return (
                     <div>
-                        <Login setLoginStatus={this.loginResponse} />
-                        <RankList/>
+                        <Header setNewPage={this.destinationResponse}/>
+                        <Signup/>
+                    </div>
+                )
+            case "lost":
+                return (
+                    <div>
+                        <Header setNewPage={this.destinationResponse}/>
+                        <Lost/>
+                    </div>
+                )
+            case "admin":
+                return(
+                    <div>
+                        <Admin/>
                     </div>
                 )
             case "ship select":
@@ -281,12 +327,29 @@ export default class controller extends React.Component {
                     </div>
                 )
             default:
-                return <Login setLoginStatus={this.setStatus} />
+                return (<div>
+                        <Header setNewPage={this.destinationResponse}/>
+                            <Login setLoginStatus={this.loginResponse} />
+
+                        </div>
+                        )
         }
     }
 
     render() {
         //const isLogged=this.state.status
+        //Add a logout
+        //TODO
+            // if(sessionStorage.getItem("Login") ==="true"){
+            //     if(sessionStorage.getItem("Role") === "Admin"){
+            //         this.setState({status: "admin"})
+            //     }
+            //     else{
+            //         this.setState({status:"login"})
+            //     }
+            // }
+        
+        
         return (
             <div>
                 {this.renderActiveComponent()}

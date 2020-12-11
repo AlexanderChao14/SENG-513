@@ -1,6 +1,7 @@
 import './App.css';
 import React from "react"
 import Auth from "./loginComponents/auth";
+import "./loginComponents/comp.css"
 
 
 
@@ -11,7 +12,8 @@ class Login extends React.Component {
       email: "",
       password: "",
       status: "",
-      setStatus: props.setLoginStatus
+      setStatus: props.setLoginStatus,
+      role:""
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleChange2 = this.handleChange2.bind(this);
@@ -39,45 +41,48 @@ class Login extends React.Component {
     // }
   }
 
-  receiveLoginResponse(newStatus,email) {
+  receiveLoginResponse(newStatus,email, role, firstname) {
     this.setState({ status: newStatus })
-    this.state.setStatus(newStatus,email)
+    this.setState({role:role})
+    this.state.setStatus(newStatus,email,role, firstname)
     console.log(this.state.status)
+    console.log(this.state.role)
   }
 
   render() {
     return (
-      <div id="name">
-        <h1>Battleship</h1>
-        <form role="form" id="login-form">
-          <div>
-            <label htmlFor="email">Email:</label>
-            <input name="email"
-              type="email"
-              placeholder="Email"
-              className="form-control"
-              id="email"
-              value={this.state.email}
-              onChange={this.handleChange}
-              required></input>
-          </div>
-          <div>
-            <label htmlFor="password">Password:</label>
-            <input name="password"
-              type="password"
-              placeholder="Password"
-              className="form-control"
-              id="password"
-              value={this.state.password}
-              onChange={this.handleChange2}
-              required></input>
+      <div id="area">
+        <h1>Login Page</h1>
+        <div id="inputarea">
+          <form role="form" id="login-form">
+            <div className="input">
+              <label htmlFor="email">Email:</label>
+              <input name="email"
+                type="email"
+                placeholder="Email"
+                className="form-control"
+                id="email"
+                value={this.state.email}
+                onChange={this.handleChange}
+                required></input>
+            </div>
+            <div className="input">
+              <label htmlFor="password">Password:</label>
+              <input name="password"
+                type="password"
+                placeholder="Password"
+                className="form-control"
+                id="password"
+                value={this.state.password}
+                onChange={this.handleChange2}
+                required></input>
+            </div>
+          <button className="enter" type="submit"
+                id="login-button"
+                onClick={this.submit}>Login</button>
+          </form>
 
-            <button type="submit"
-              id="login-button"
-              onClick={this.submit}>Login</button>
-
-          </div>
-        </form>
+        </div>
       </div>
     );
   }
