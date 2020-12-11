@@ -35,8 +35,8 @@ export default class controller extends React.Component {
         this.goToShipSelect = this.goToShipSelect.bind(this);
 
         this.destinationResponse = this.destinationResponse.bind(this);
-
     }
+
 
     loginResponse(newStatus, email,role, first) {
         if (newStatus === true) {
@@ -235,17 +235,24 @@ export default class controller extends React.Component {
     }
 
     renderActiveComponent() {
-
         
         switch (this.state.status) {
             case "login":
+                if(sessionStorage.getItem("Login") ==="true"){
+                    if(sessionStorage.getItem("Role") === "Admin"){
+                        this.setState({status: "admin"})
+                    }
+                    else{
+                        this.setState({status:"ship select"})
+                    }
+                }
                 return (<div>
                         <Header setNewPage={this.destinationResponse}/>
                         <Login setLoginStatus={this.loginResponse} />
                     </div>)
             case "signup":
                 return (
-                    <div>
+                    <div onLoad = {this.isLogged}>
                         <Header setNewPage={this.destinationResponse}/>
                         <Signup/>
                     </div>
@@ -314,6 +321,14 @@ export default class controller extends React.Component {
                     </div>
                 )
             default:
+                if(sessionStorage.getItem("Login") ==="true"){
+                    if(sessionStorage.getItem("Role") === "Admin"){
+                        this.setState({status: "admin"})
+                    }
+                    else{
+                        this.setState({status:"ship select"})
+                    }
+                }
                 return (<div>
                         <Header setNewPage={this.destinationResponse}/>
                             <Login setLoginStatus={this.loginResponse} />
@@ -327,14 +342,7 @@ export default class controller extends React.Component {
         //const isLogged=this.state.status
         //Add a logout
         //TODO
-            // if(sessionStorage.getItem("Login") ==="true"){
-            //     if(sessionStorage.getItem("Role") === "Admin"){
-            //         this.setState({status: "admin"})
-            //     }
-            //     else{
-            //         this.setState({status:"login"})
-            //     }
-            // }
+            
         
         
         return (
