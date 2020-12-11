@@ -24,7 +24,7 @@ export default class Square extends React.Component {
   
     render() {
       let displayVal = this.state.val.toString();
-      let color= '#000';
+      let color= '#FFF';
       let clickFunct = this.state.onClick
       if (displayVal.includes("0")){
         displayVal='';
@@ -34,19 +34,24 @@ export default class Square extends React.Component {
         if(displayVal.includes("1")){
           displayVal='X'
           clickFunct = ()=>{}
+          color = "#FFF";
         }
         if(this.state.val.length === 2){
-          color = "#0f0"
+          color = "#F00";
         }
-        else{
-          color = "#F00"
+        if(!displayVal.includes('X')){
+          displayVal = ''
         }
+        // else{
+        //   color = "#FFF";
+        //   displayVal = ''
+        // }
       }
       return (
         <td
           className="square"
           onClick={() =>{
-            clickFunct(this.state.col,this.state.row);
+            clickFunct(this.state.col,this.state.row,this.state.val);
           }
           }
           style={{backgroundColor:color}}

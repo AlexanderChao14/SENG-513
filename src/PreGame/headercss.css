@@ -1,0 +1,41 @@
+*{
+    align-items: center;
+    margin: 0;
+}
+
+#head h1{
+    font-size: 36pt;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    
+}
+
+#head{
+    height: 30%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: gray;
+    text-align: center;
+}
+
+#tab{
+    display: grid;
+}
+
+#tab button{
+    margin-top: 20px;
+    width: 200px;
+    grid-row: 1;
+    background-color: lightgray;
+    text-shadow: 1px 1px 1px white;
+    font-size: 16pt;
+    margin-left: 220px;
+    padding-left: 0px;
+    margin-right: 0px;
+    border-radius: 5px;
+}
+
+body{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}

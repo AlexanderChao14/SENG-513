@@ -1,6 +1,7 @@
-import { render } from "@testing-library/react";
 import React from "react"
 import AuthSignup from "./authsignup"
+import "./comp.css"
+
 
 class Signup extends React.Component{
     constructor(props){
@@ -12,7 +13,8 @@ class Signup extends React.Component{
             lastname: "",
             passwordverify: "",
             status: ""
-        }    
+        } 
+        this.submit =  this.submit.bind(this)   
         this.handleChangeEmail = this.handleChangeEmail.bind(this)
         this.handleChangePassword = this.handleChangePassword.bind(this)
         this.handleChangeFirstName = this.handleChangeFirstName.bind(this)
@@ -42,66 +44,76 @@ class Signup extends React.Component{
             this.state.password,
             this.state.firstname,
             this.state.lastname,
-            this.state.passwordverifym,
-             this.reciveSignupResponse)
+            this.state.passwordverify,
+            this.reciveSignupResponse)
         console.log(newStatus)
         e.preventDefault()
     }
 
-    reciveSignupResponse(newStatus){
+    reciveSignupResponse(newStatus,  message){
         this.setState({status:newStatus})
         this.state.setStatus(newStatus)
+        
+        alert(message)
         console.log(this.state.status)
     }
 
     render(){
         return(
-            <div>
-            <h1>Signup</h1>
-            <form role="form">
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input type ="email" 
-                        placeholder="Email" 
-                        className="form-control" 
-                        
-                        required></input>
+            <div id="area">
+                <h1>Signup</h1>
+                <div id="inputarea">
+                <form role="form">
+                    <div class="input">
+                        <label htmlFor="email">Email:</label>
+                        <input type ="email" 
+                            placeholder="Email" 
+                            className="form-control" 
+                            value={this.state.email}
+                            onChange={this.handleChangeEmail}
+                            required></input>
+                    </div>
+                    <div class="input">
+                        <label htmlFor="firstname">First Name:</label>
+                        <input type ="firstname" 
+                            placeholder="Firstname" 
+                            className="form-control" 
+                            value={this.state.firstname}
+                            onChange = {this.handleChangeFirstName}
+                            required></input>
+                    </div>
+                    <div class="input">
+                        <label htmlFor="lastname">Last Name:</label>
+                        <input type ="lastname" 
+                            placeholder="Lastname" 
+                            className="form-control" 
+                            value={this.state.lastname}
+                            onChange = {this.handleChangeLastName}
+                            required></input>
+                    </div>
+                    <div class="input">
+                        <label htmlFor="password">Password:</label>
+                        <input type ="password" 
+                            placeholder="Password" 
+                            className="form-control" 
+                            value={this.state.password}
+                            onChange={this.handleChangePassword}
+                            required></input>
+                    </div>
+                    <div class="input">
+                        <label htmlFor="password">Verify Password:</label>
+                        <input type ="password" 
+                            placeholder="Verify Password" 
+                            className="form-control" 
+                            value={this.state.passwordverify}
+                            onChange={this.handleChangePasswordVerify}
+                            required></input>
+                    </div>
+                    <button class="enter" type="submit" onClick={this.submit}>Sign Up</button>
+                </form>
+
                 </div>
-                <div>
-                    <label htmlFor="firstname">First Name:</label>
-                    <input type ="firstname" 
-                        placeholder="Firstname" 
-                        className="form-control" 
-                    
-                        required></input>
-                </div>
-                <div>
-                    <label htmlFor="lastname">Last Name:</label>
-                    <input type ="lastname" 
-                        placeholder="Lastname" 
-                        className="form-control" 
-                    
-                        required></input>
-                </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
-                    <input type ="password" 
-                        placeholder="Password" 
-                        className="form-control" 
-                    
-                        required></input>
-                </div>
-                <div>
-                    <label htmlFor="email">Verify Password:</label>
-                    <input type ="password" 
-                        placeholder="Verify Password" 
-                        className="form-control" 
-                    
-                        required></input>
-                </div>
-                <button type="submit" onClick={this.submit}>Sign Up</button>
-            </form>
-        </div>
+            </div>
         )
     }
 }

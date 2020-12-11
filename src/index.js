@@ -3,11 +3,22 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Controller from './controller';
 import reportWebVitals from './reportWebVitals';
-
+import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom'
+import Verify  from "./loginComponents/verify"
+import ResetPass from "./loginComponents/resetpass"
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Controller />
+    <BrowserRouter>
+      <Switch>
+        <Route exact path ="/" component={Controller}/>
+        <Route exact path ="/verify/" component={Verify}/>
+        <Route exact path="/resetpassword/" component={ResetPass}/>
+        <Redirect from="*" to="/"/>
+      </Switch>
+    
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

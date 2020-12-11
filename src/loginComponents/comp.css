@@ -1,0 +1,61 @@
+#area{
+    margin-top: 2%;
+    height: 70%;
+    align-items: center;
+    text-align: center;
+    padding: 25px;
+}
+
+#area h1{
+    padding-bottom: 30px;
+    font-size: 24pt;
+    text-decoration: underline;
+}
+
+#inputarea{
+    display: grid;
+    grid-column: 2;
+    margin-left: 38%;
+    margin-right: 38%;
+    background-color: lightcyan;
+    width: auto;
+    height: auto;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 5px;
+}
+
+
+.input{
+    
+    padding-bottom: 25px;
+    font-size: 16pt;
+}
+
+.input label{
+    grid-column-start: 1;
+    grid-column-end: 1;
+    font-size: 16pt;
+    padding-right: 20px;
+}
+
+.input input{
+    
+    grid-column-start: 2;
+    grid-column-end: 2;
+    border: 1px solid #ddd;
+    width: 50%;
+    height: 25px;
+    border-radius: 5px;
+}
+
+.enter{
+    font-size: 16pt;
+    background-color:#eee;
+    text-shadow: 1px 1px 1px white;
+    border-radius: 5px;
+    padding: 4px;
+}
+
