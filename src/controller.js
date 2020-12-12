@@ -1,8 +1,11 @@
 import React from "react"
 import Login from "./login"
-import Shipselector from "./ShipSelection/ShipSelector"
+import Shipselector from "./PreGame/ShipSelector"
 import PlayerGrid from "./PlayerGrid/PlayerGrid"
 import EnemyGrid from "./EnemyGrid/enemyGrid"
+import RankList from "./RankList/RankList"
+import PreGameHeader from "./PreGame/PreGameHeader"
+
 import Header from "./loginComponents/header"
 import Signup from "./loginComponents/signup"
 import Lost from "./loginComponents/lostpass"
@@ -16,8 +19,8 @@ export default class controller extends React.Component {
             //turnStatus: null,
             playerArray: null,
             enemyArray: null,
-            allShipsPlaced:false,
-            //socket:null,
+            allShipsPlaced: false,
+            socket:null,
             id: null,
             gameId: null,
             //If there is a game avaliable from the server or not
@@ -33,6 +36,7 @@ export default class controller extends React.Component {
         this.updatePlayerGrid = this.updatePlayerGrid.bind(this);
         this.attack = this.attack.bind(this);
         this.goToShipSelect = this.goToShipSelect.bind(this);
+        this.waitingList = this.waitingList.bind(this);
 
         this.destinationResponse = this.destinationResponse.bind(this);
     }
@@ -42,13 +46,13 @@ export default class controller extends React.Component {
         if (newStatus === true) {
             console.log("Logged in as :" + email);
 
-            if(role === "Admin"){
-                this.setState({status:"admin"})
+            if (role === "Admin") {
+                this.setState({ status: "admin" })
                 sessionStorage.setItem("firstName", first);
                 sessionStorage.setItem("Email", email);
                 sessionStorage.setItem("Login", "true");
                 sessionStorage.setItem("Role", role);
-            }else{
+            } else {
                 this.setState({ status: "ship select" });
                 this.setState({ id: email });
                 sessionStorage.setItem("firstName", first);
@@ -57,7 +61,7 @@ export default class controller extends React.Component {
                 sessionStorage.setItem("Role", role);
                 let s = new WebSocket(`wss://4kflhc6oo7.execute-api.us-east-1.amazonaws.com/dev?player=${email}`);
                 this.socket = s;
-                //this.setState({socket:s})
+                this.setState({socket:s})
                 this.socket.onmessage = (event) => {
                     console.log(event.data);
                     this.handleEvent(event);
@@ -70,8 +74,8 @@ export default class controller extends React.Component {
         console.log(this.state.status)
     }
 
-    destinationResponse(newStatus, message){
-        this.setState({status:newStatus})
+    destinationResponse(newStatus, message) {
+        this.setState({ status: newStatus })
     }
 
     handleEvent(event) {
@@ -95,6 +99,10 @@ export default class controller extends React.Component {
             case "lose":
                 this.setState({ status: "lose" })
                 break;
+            case "TERMINATE":
+                this.setState({ status: "terminate" })
+                break;
+
             default:
                 break;
         }
@@ -182,34 +190,21 @@ export default class controller extends React.Component {
             });
     }
 
-    //resets some state variables and goes to ship selector screen
-    goToShipSelect() {
-        this.setState({
-            status: "ship select",
-            playerArray: null,
-            enemyArray: null,
-            gameId: null,
-            gameAvailable: false,
-            gameRequested: false,
-        })
-    }
+    waitingList() {
+        console.log("In waiting list")
+        this.setState({ gameRequested: true })
 
-    attack(row, col, valOfSquare) {
-        console.log("Attack coordinates, Col:" + col + ", Row:" + row)
-        console.log("game id is : " + this.state.gameId)
-        var input = {
-            gameId: this.state.gameId,
+        let input = {
             email: this.state.id,
-            x_cordinate: col,
-            y_cordinate: row
+            grid: this.state.playerArray,
         };
 
-        fetch("https://zy86pq19vd.execute-api.us-east-1.amazonaws.com/dev/gameengine", {
+        fetch("https://zy86pq19vd.execute-api.us-east-1.amazonaws.com/dev/waitinglist", {
             body: JSON.stringify(input),
             headers: {
                 "Content-Type": "application/json"
             },
-            method: "PUT",
+            method: "POST",
         })
             .then(response => response.json())
             .then((res) => {
@@ -227,9 +222,63 @@ export default class controller extends React.Component {
             });
     }
 
+    //resets some state variables and goes to ship selector screen
+    goToShipSelect() {
+        this.setState({
+            status: "ship select",
+            playerArray: null,
+            enemyArray: null,
+            gameId: null,
+            gameAvailable: false,
+            gameRequested: false,
+        })
+    }
+
+    attack(row, col, valOfSquare) {
+
+        console.log("Attack coordinates, Col:" + col + ", Row:" + row)
+        console.log("game id is : " + this.state.gameId)
+        // var input = {
+        //     gameId: this.state.gameId,
+        //     email: this.state.id,
+        //     x_cordinate: col,
+        //     y_cordinate: row
+        // };
+
+        let mess={"action" : "onGame" , "data" : {
+            gameId:this.state.gameId,
+            email:this.state.id,
+            x_cordinate:col,
+            y_cordinate:row
+        }}
+        let sendGame=JSON.stringify(mess)
+        this.state.socket.send(sendGame);
+        // fetch("https://zy86pq19vd.execute-api.us-east-1.amazonaws.com/dev/gameengine", {
+        //     body: JSON.stringify(input),
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     method: "PUT",
+        // })
+        //     .then(response => response.json())
+        //     .then((res) => {
+        //         console.log("Response", res);
+        //         if (res?.statusCode === 200) {
+        //             console.log(res);
+        //         }
+        //         else {
+        //             console.log(res);
+        //         }
+        //     })
+        //     .catch((err) => {
+        //         console.log("###error: ", err);
+        //         //addNotification("###error: ",err);
+        //     });
+    }
+
     //Only used for shipselector stage. Otherwise, grid is sent by server
-    updatePlayerGrid(grid,isDone) {
-        this.setState({ playerArray: grid,allShipsPlaced:isDone })
+    updatePlayerGrid(grid, isDone) {
+        this.setState({ playerArray: grid, allShipsPlaced: isDone })
         console.log("grid updated")
         console.log(grid)
     }
@@ -247,9 +296,9 @@ export default class controller extends React.Component {
                     }
                 }
                 return (<div>
-                        <Header setNewPage={this.destinationResponse}/>
-                        <Login setLoginStatus={this.loginResponse} />
-                    </div>)
+                    <Header setNewPage={this.destinationResponse} />
+                    <Login setLoginStatus={this.loginResponse} />
+                </div>)
             case "signup":
                 return (
                     <div onLoad = {this.isLogged}>
@@ -260,24 +309,39 @@ export default class controller extends React.Component {
             case "lost":
                 return (
                     <div>
-                        <Header setNewPage={this.destinationResponse}/>
-                        <Lost/>
+                        <Header setNewPage={this.destinationResponse} />
+                        <Lost />
                     </div>
                 )
             case "admin":
-                return(
+                return (
                     <div>
-                        <Admin/>
+                        <Admin />
                     </div>
                 )
             case "ship select":
                 return (
                     <div>
+                        <PreGameHeader setNewPage={this.destinationResponse} />
                         <Shipselector startQueue={
-                            !this.state.gameAvailable ? this.startQueue : this.acceptGame
-                            } 
+                            // !this.state.gameAvailable ? this.waitingList : 
+                            this.waitingList
+                        }
                             updatePlayerGrid={this.updatePlayerGrid} />
-                        {/* <button onClick={() => this.acceptGame(this.state.AcceptGameMSG)}>Accept Game</button> */}
+                    </div>
+                )
+            case "rankings":
+                return (
+                    <div>
+                        <PreGameHeader setNewPage={this.destinationResponse} />
+                        <RankList />
+                    </div>
+                )
+            case "how to play":
+                return (
+                    <div>
+                        <PreGameHeader setNewPage={this.destinationResponse} />
+                        <h1>TODO</h1>
                     </div>
                 )
             case "game":
@@ -320,6 +384,13 @@ export default class controller extends React.Component {
                         <button onClick={() => this.goToShipSelect()}>Play another game</button>
                     </div>
                 )
+            case "terminate":
+                return (
+                    <div>
+                        <h1>Your opponent left the game. The game has been terminated</h1>
+                        <button onClick={() => this.goToShipSelect()}>Play another game</button>
+                    </div>
+                )
             default:
                 if(sessionStorage.getItem("Login") ==="true"){
                     if(sessionStorage.getItem("Role") === "Admin"){
@@ -330,11 +401,11 @@ export default class controller extends React.Component {
                     }
                 }
                 return (<div>
-                        <Header setNewPage={this.destinationResponse}/>
-                            <Login setLoginStatus={this.loginResponse} />
+                    <Header setNewPage={this.destinationResponse} />
+                    <Login setLoginStatus={this.loginResponse} />
 
-                        </div>
-                        )
+                </div>
+                )
         }
     }
 
