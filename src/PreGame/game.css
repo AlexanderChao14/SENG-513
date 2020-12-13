@@ -47,10 +47,27 @@ ol, ul {
 .game {
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.shiplist{
+  display: flex;
+  flex-direction: column;
 }
 
 .game-info {
   margin-left: 20px;
+}
+
+.board {
+  width: 344px;
+  height: 330px;
+}
+
+.play-ready{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 

@@ -153,7 +153,7 @@ export default class Board extends React.Component {
     return (
       <div>
         <div className="Title">{this.state.title}</div>
-        <table>
+        <table class='board'>
           <tbody>
             {this.createTable()}
           </tbody>

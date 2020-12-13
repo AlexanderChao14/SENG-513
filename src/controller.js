@@ -5,6 +5,7 @@ import PlayerGrid from "./PlayerGrid/PlayerGrid"
 import EnemyGrid from "./EnemyGrid/enemyGrid"
 import RankList from "./RankList/RankList"
 import PreGameHeader from "./PreGame/PreGameHeader"
+import HowToPlay from "./PreGame/HowToPlay";
 
 import Header from "./loginComponents/header"
 import Signup from "./loginComponents/signup"
@@ -327,14 +328,14 @@ export default class controller extends React.Component {
                 return (
                     <div>
                         <PreGameHeader setNewPage={this.destinationResponse} />
-                        <RankList />
+                        <RankList playerID = {this.state.id}/>
                     </div>
                 )
             case "how to play":
                 return (
                     <div>
                         <PreGameHeader setNewPage={this.destinationResponse} />
-                        <h1>TODO</h1>
+                        <HowToPlay></HowToPlay>
                     </div>
                 )
             case "game":

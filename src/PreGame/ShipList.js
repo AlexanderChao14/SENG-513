@@ -56,9 +56,6 @@ export default class ShipList extends React.Component {
         <div id="ship-section">
           {this.RenderAvailableShips()}
         </div>
-        <Button variant="outline-primary" onClick={this.state.rotateShip}>
-          Rotate Ship
-        </Button>
       </div>
     )
   }
@@ -75,6 +72,9 @@ export default class ShipList extends React.Component {
     return (
       <div className='shiplist'>
         {this.state.availableShips.length > 0 ? this.renderShips() : this.renderQueueButton()}
+        <Button variant="outline-primary" onClick={this.state.rotateShip}>
+          Rotate Ship
+        </Button>
         {this.renderRestartButton()}
       </div>
     );

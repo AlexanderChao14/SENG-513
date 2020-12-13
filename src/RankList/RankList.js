@@ -59,11 +59,12 @@ export default class RankList extends React.Component {
           </thead>
           <tbody key="tbody">
             {this.state.RankList.map((element) => {
+              let style = 'normal'
               if (element.userID === this.state.playerID) {
-                //change style
+                style='bold'
               }
               return (
-                <tr key={element.userID}>
+                <tr key={element.userID} style={{'fontWeight':style}}>
                   <td key='1'>
                     {element.wins}
                   </td>

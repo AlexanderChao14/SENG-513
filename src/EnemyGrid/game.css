@@ -53,4 +53,8 @@ ol, ul {
   margin-left: 20px;
 }
 
+.board {
+  width: 344px;
+  height: 330px;
+}
 
