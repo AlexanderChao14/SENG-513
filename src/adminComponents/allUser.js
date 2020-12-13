@@ -1,6 +1,7 @@
 import React, { useEffect, useState, } from 'react';
 import axios from 'axios';
 import "./adminstyle.css";
+import { Alert } from 'react-bootstrap';
 
 
 
@@ -10,13 +11,13 @@ import "./adminstyle.css";
 function AllUsers(){
 
 
+    
     function deactivateUser(email,){
        
 
 
         let input = {email:email};
         
-          
       
           console.log("input: ", input);
           fetch("https://01vablvh7h.execute-api.us-east-1.amazonaws.com/dev/deactiveuser", {
@@ -30,12 +31,12 @@ function AllUsers(){
               .then((res) => {
                   console.log("Response", res);
                   
-            
                   if(res?.statusCode ===200) {
+                      
                     
                    
                   }
-            fetchData();
+                    fetchData();
                   
                   
               })
@@ -64,9 +65,8 @@ function AllUsers(){
                     .then((res) => {
                         console.log("Response", res);
                         
-                
                         if(res?.statusCode ===200) {
-                        
+                           
                         
                         }
                         fetchData();
@@ -99,8 +99,10 @@ function AllUsers(){
   
 
     if(data){
+        
         return (
             <div>
+                
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
           <a className="navbar-brand" >ADMIN</a>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
