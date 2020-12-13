@@ -14,18 +14,21 @@ function getUrlParams() {
 
 
 
-function resetPassword(pass, verify) {
+function resetPassword(pass, verify, callback) {
     
     var urlParams = getUrlParams();
     var email = urlParams['email'] || null;
     var lost = urlParams['lost'] || null;
     if (pass === null || pass === '') {
        console.log('Please specify a password.');
+       callback('Please specify a password.')
     } else if (pass !== verify) {
-        console.log('Passwords are <b>not</b> the same, please check.');
+        console.log('Passwords are <not the same, please check.');
+        callback('Passwords are not the same, please check.')
     } else {
         if ((!email)||(!lost)) {
         console.log('Please specify email and lost token in the URL.');
+        callback('Please specify email and lost token in the URL.')
         } else {
         console.log('Trying to reset password for user ' +
             email + ' ...');
@@ -47,8 +50,13 @@ function resetPassword(pass, verify) {
                 console.log("Response", res);
                 console.log("#################",res.body)
                 
-                if(res?.statusCode ===200) console.log(res?.body?.message);
-                else console.log(res?.body?.message);;
+                if(res?.statusCode ===200){
+                    console.log(res?.body?.message);
+                    callback(res.body.message)
+                }else{
+                    console.log(res?.body?.message);;
+                    callback(res.body.message)
+                } 
                 
             })
             .catch((err) => {

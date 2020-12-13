@@ -1,23 +1,33 @@
-function AuthSignup(email, pass, firstname, lastname, passverify, callback){
+function AuthSignup(email, pass, firstname, lastname, passverify, callback, callback2){
     var status
+    var message
     console.log(email)
     console.log(pass)
     console.log(firstname)
     console.log(lastname)
     console.log(passverify)
-    if(email ==null || email.value ===''){
+    if(email ==null || email ===""){
         console.log("Please enter email")
+        message ="Please enter email"
+        callback2(message)
     } else if(pass == null || pass === ''){
         console.log("Please enter pass");
+        message ="Please enter password"
+        callback2(message)
     }
     else if(firstname == null || firstname === ''){
-        console.log("Plese enter first name");
+        message="Please enter first name"
+        callback2(message)
     }
     else if(lastname == null || lastname === ''){
         console.log("Plese enter last name");
+        message="Please enter last name"
+        callback2(message)
     }
     else if(pass !== passverify){
         console.log("Plese enter the same password");
+        message="Please verify password"
+        callback2(message )
     }
     else{
         console.log("setting up")

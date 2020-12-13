@@ -11,6 +11,8 @@ import Signup from "./loginComponents/signup"
 import Lost from "./loginComponents/lostpass"
 import Admin from "./adminComponents/admin"
 
+import UpdateUser from "./PreGame/updateUser"
+
 export default class controller extends React.Component {
     constructor() {
         super();
@@ -286,6 +288,18 @@ export default class controller extends React.Component {
     renderActiveComponent() {
         
         switch (this.state.status) {
+            case "logout":
+                sessionStorage.clear();
+                this.setState({status:"login"})
+                return 0;
+            case "update":
+                return(
+                <div>
+                    <PreGameHeader setNewPage={this.destinationResponse}/>
+                    <UpdateUser />
+
+                </div>
+                )
             case "login":
                 if(sessionStorage.getItem("Login") ==="true"){
                     if(sessionStorage.getItem("Role") === "Admin"){

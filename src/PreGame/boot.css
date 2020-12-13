@@ -1,0 +1,17 @@
+.form-control {
+    width: 75% !important;
+    max-width: 500px;
+    /* align-items: center!important; */
+    
+}
+
+.btn {
+  width: 75% !important;
+  max-width: 500px;
+  /* align-items: center!important; */
+  
+}
+
+/* .form-group{
+  align-items: center;
+} */

@@ -1,6 +1,6 @@
 import React from "react"
 
-function getUrlParams() {
+function getUrlParams(callback) {
     var p = {};
     var match,
       pl     = /\+/g,
@@ -17,6 +17,7 @@ function AuthVerify(){
 var urlParams = getUrlParams();
   if (!('email' in urlParams) || !('verify' in urlParams)) {
     console.log('Please specify email and verify token in the URL.');
+    callback("Please specify email and verify token in the URL.")
   } else {
     console.log('Verifying...');
     var input = {
@@ -37,13 +38,16 @@ var urlParams = getUrlParams();
             console.log("Response", res);
            
            
-            if(res?.statusCode ===200) console.log(res?.body?.message);
+            if(res?.statusCode ===200){
+
+              console.log(res?.body?.message);
+              
+              callback(res.body.message)
+            }
             else{
               console.log(res?.body?.message);;
-              
+              callback(res.body.message)
             } 
-            var isVerified = res.body.message
-            return isVerified
         })
         .catch((err) => {
             console.log("###error: ",err);
