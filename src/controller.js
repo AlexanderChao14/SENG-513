@@ -43,10 +43,21 @@ export default class controller extends React.Component {
         this.attack = this.attack.bind(this);
         this.goToShipSelect = this.goToShipSelect.bind(this);
         this.waitingList = this.waitingList.bind(this);
-
         this.destinationResponse = this.destinationResponse.bind(this);
+        this.loadFromSessionStorage = this.loadFromSessionStorage.bind(this);
+
+        this.loadFromSessionStorage();
     }
 
+    loadFromSessionStorage(){
+        if (sessionStorage.getItem("Role") === "Admin") {
+            this.setState({ status: "admin" })
+        }
+        else {
+            console.log(sessionStorage.getItem("Email"));
+            this.setState({ status: "ship select", id:sessionStorage.getItem("Email"), socket:sessionStorage.getItem("Socket")})
+        }
+    }
 
     loginResponse(newStatus, email, role, first) {
         if (newStatus === true) {
@@ -67,6 +78,7 @@ export default class controller extends React.Component {
                 sessionStorage.setItem("Role", role);
                 let s = new WebSocket(`wss://4kflhc6oo7.execute-api.us-east-1.amazonaws.com/dev?player=${email}`);
                 this.socket = s;
+                sessionStorage.setItem("Socket",s)
                 this.setState({ socket: s })
                 this.socket.onmessage = (event) => {
                     console.log(event.data);
@@ -241,6 +253,7 @@ export default class controller extends React.Component {
     }
 
     attack(row, col, valOfSquare) {
+        this.setState({gameRequested:false})
 
         console.log("Attack coordinates, Col:" + col + ", Row:" + row)
         console.log("game id is : " + this.state.gameId)
@@ -362,7 +375,8 @@ export default class controller extends React.Component {
                             // !this.state.gameAvailable ? this.waitingList : 
                             this.waitingList
                         }
-                            updatePlayerGrid={this.updatePlayerGrid} />
+                            updatePlayerGrid={this.updatePlayerGrid} 
+                            queueStarted={this.state.gameRequested}/>
                     </div>
                 )
             case "rankings":
@@ -454,14 +468,9 @@ export default class controller extends React.Component {
                     </div>
                 )
             default:
-                if (sessionStorage.getItem("Login") === "true") {
-                    if (sessionStorage.getItem("Role") === "Admin") {
-                        this.setState({ status: "admin" })
-                    }
-                    else {
-                        this.setState({ status: "ship select" })
-                    }
-                }
+                // if (sessionStorage.getItem("Login") === "true") {
+                //     console.log("Page Refreshed")
+                // }
                 return (<div>
                     <Header setNewPage={this.destinationResponse} />
                     <Login setLoginStatus={this.loginResponse} />
@@ -475,8 +484,6 @@ export default class controller extends React.Component {
         //const isLogged=this.state.status
         //Add a logout
         //TODO
-
-
 
         return (
             <div>

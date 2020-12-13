@@ -60,7 +60,8 @@ export default class ShipSelector extends React.Component {
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            ]
+            ],
+            queueStarted: props.queueStarted
         };
         this.selectShip = this.selectShip.bind(this);
         this.placeShip = this.placeShip.bind(this);
@@ -74,6 +75,7 @@ export default class ShipSelector extends React.Component {
     static getDerivedStateFromProps(props, state) {
         return {
             startQueue: props.startQueue,
+            queueStarted:props.queueStarted
         };
     }
 
@@ -167,6 +169,7 @@ export default class ShipSelector extends React.Component {
                                 startQueue={this.queuePressed}
                                 restartPlacement={this.restartPlacement}
                                 rotateShip={this.rotateShip}
+                                queueStarted={this.state.queueStarted}
                             />
                         </Card.Body>
                     </Card>

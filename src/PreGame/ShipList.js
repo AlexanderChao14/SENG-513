@@ -12,6 +12,7 @@ export default class ShipList extends React.Component {
       startQueue: props.startQueue,
       restartPlacement: props.restartPlacement,
       rotateShip: props.rotateShip,
+      queueStarted: props.queueStarted,
     };
   }
 
@@ -20,10 +21,17 @@ export default class ShipList extends React.Component {
       availableShips: props.availableShips,
       currentlyPlacing: props.currentlyPlacing,
       startQueue: props.startQueue,
+      queueStarted: props.queueStarted,
     };
   }
 
   renderQueueButton() {
+    // let onClick = this.state.startQueue;
+    if(this.state.queueStarted){
+      return (
+        <h1>Queue started</h1>
+      )
+    }
     return (
       <div id="play-ready">
         <p className="player-tip">Ships are in formation.</p>
@@ -46,6 +54,7 @@ export default class ShipList extends React.Component {
         isCurrentlyPlacing={this.state.currentlyPlacing && this.state.currentlyPlacing.name === shipName}
         shipName={shipName}
         availableShips={this.state.availableShips}
+        
       />));
   }
 
