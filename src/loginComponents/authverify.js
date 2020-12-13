@@ -1,6 +1,6 @@
 import React from "react"
 
-function getUrlParams(callback) {
+function getUrlParams() {
     var p = {};
     var match,
       pl     = /\+/g,
@@ -12,7 +12,7 @@ function getUrlParams(callback) {
     return p;
   }
 
-function AuthVerify(){
+function AuthVerify(callback){
     console.log("running")
 var urlParams = getUrlParams();
   if (!('email' in urlParams) || !('verify' in urlParams)) {
