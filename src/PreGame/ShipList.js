@@ -11,7 +11,7 @@ export default class ShipList extends React.Component {
       currentlyPlacing: props.currentlyPlacing,
       startQueue: props.startQueue,
       restartPlacement: props.restartPlacement,
-      rotateShip:props.rotateShip,
+      rotateShip: props.rotateShip,
     };
   }
 
@@ -30,6 +30,7 @@ export default class ShipList extends React.Component {
         <Button variant="success" id="Queue-button" onClick={this.state.startQueue}>
           Start Queue
       </Button>
+        {this.renderRestartButton()}
       </div>
     )
   }
@@ -53,6 +54,10 @@ export default class ShipList extends React.Component {
       <div>
         <div id="ship-section">
           {this.RenderAvailableShips()}
+          <Button variant="outline-primary" onClick={this.state.rotateShip}>
+            Rotate Ship
+        </Button>
+          {this.renderRestartButton()}
         </div>
       </div>
     )
@@ -70,10 +75,6 @@ export default class ShipList extends React.Component {
     return (
       <div className='shiplist'>
         {this.state.availableShips.length > 0 ? this.renderShips() : this.renderQueueButton()}
-        <Button variant="outline-primary" onClick={this.state.rotateShip}>
-          Rotate Ship
-        </Button>
-        {this.renderRestartButton()}
       </div>
     );
   }

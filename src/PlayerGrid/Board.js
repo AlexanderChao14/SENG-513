@@ -145,7 +145,7 @@ export default class Board extends React.Component {
   render() {
 
     return (
-      <div>
+      <div class = 'board-div'>
         <div className="Title">{this.state.title}</div>
         <table>
           <tbody>

@@ -6,6 +6,7 @@ import EnemyGrid from "./EnemyGrid/enemyGrid"
 import RankList from "./RankList/RankList"
 import PreGameHeader from "./PreGame/PreGameHeader"
 import HowToPlay from "./PreGame/HowToPlay";
+import GameHeader from "./Game/GameHeader";
 
 import Header from "./loginComponents/header"
 import Signup from "./loginComponents/signup"
@@ -13,6 +14,8 @@ import Lost from "./loginComponents/lostpass"
 import Admin from "./adminComponents/admin"
 
 import UpdateUser from "./PreGame/updateUser"
+import { Card, CardColumns } from "react-bootstrap"
+import Button from 'react-bootstrap/Button'
 
 export default class controller extends React.Component {
     constructor() {
@@ -23,7 +26,7 @@ export default class controller extends React.Component {
             playerArray: null,
             enemyArray: null,
             allShipsPlaced: false,
-            socket:null,
+            socket: null,
             id: null,
             gameId: null,
             //If there is a game avaliable from the server or not
@@ -45,7 +48,7 @@ export default class controller extends React.Component {
     }
 
 
-    loginResponse(newStatus, email,role, first) {
+    loginResponse(newStatus, email, role, first) {
         if (newStatus === true) {
             console.log("Logged in as :" + email);
 
@@ -64,7 +67,7 @@ export default class controller extends React.Component {
                 sessionStorage.setItem("Role", role);
                 let s = new WebSocket(`wss://4kflhc6oo7.execute-api.us-east-1.amazonaws.com/dev?player=${email}`);
                 this.socket = s;
-                this.setState({socket:s})
+                this.setState({ socket: s })
                 this.socket.onmessage = (event) => {
                     console.log(event.data);
                     this.handleEvent(event);
@@ -248,13 +251,15 @@ export default class controller extends React.Component {
         //     y_cordinate: row
         // };
 
-        let mess={"action" : "onGame" , "data" : {
-            gameId:this.state.gameId,
-            email:this.state.id,
-            x_cordinate:col,
-            y_cordinate:row
-        }}
-        let sendGame=JSON.stringify(mess)
+        let mess = {
+            "action": "onGame", "data": {
+                gameId: this.state.gameId,
+                email: this.state.id,
+                x_cordinate: col,
+                y_cordinate: row
+            }
+        }
+        let sendGame = JSON.stringify(mess)
         this.state.socket.send(sendGame);
         // fetch("https://zy86pq19vd.execute-api.us-east-1.amazonaws.com/dev/gameengine", {
         //     body: JSON.stringify(input),
@@ -287,27 +292,42 @@ export default class controller extends React.Component {
     }
 
     renderActiveComponent() {
-        
+
         switch (this.state.status) {
             case "logout":
                 sessionStorage.clear();
-                this.setState({status:"login"})
+                if(this.state.socket!==null){
+                    this.state.socket.close();
+                }
+                this.setState({
+                    status: "login",
+                    status: "login",
+                    playerArray: null,
+                    enemyArray: null,
+                    allShipsPlaced: false,
+                    socket: null,
+                    id: null,
+                    gameId: null,
+                    gameAvailable: false,
+                    gameRequested: false,
+                    AcceptGameMSG: ""
+                })
                 return 0;
             case "update":
-                return(
-                <div>
-                    <PreGameHeader setNewPage={this.destinationResponse}/>
-                    <UpdateUser />
+                return (
+                    <div>
+                        <PreGameHeader setNewPage={this.destinationResponse} />
+                        <UpdateUser />
 
-                </div>
+                    </div>
                 )
             case "login":
-                if(sessionStorage.getItem("Login") ==="true"){
-                    if(sessionStorage.getItem("Role") === "Admin"){
-                        this.setState({status: "admin"})
+                if (sessionStorage.getItem("Login") === "true") {
+                    if (sessionStorage.getItem("Role") === "Admin") {
+                        this.setState({ status: "admin" })
                     }
-                    else{
-                        this.setState({status:"ship select"})
+                    else {
+                        this.setState({ status: "ship select" })
                     }
                 }
                 return (<div>
@@ -316,9 +336,9 @@ export default class controller extends React.Component {
                 </div>)
             case "signup":
                 return (
-                    <div onLoad = {this.isLogged}>
-                        <Header setNewPage={this.destinationResponse}/>
-                        <Signup/>
+                    <div onLoad={this.isLogged}>
+                        <Header setNewPage={this.destinationResponse} />
+                        <Signup />
                     </div>
                 )
             case "lost":
@@ -349,7 +369,7 @@ export default class controller extends React.Component {
                 return (
                     <div>
                         <PreGameHeader setNewPage={this.destinationResponse} />
-                        <RankList playerID = {this.state.id}/>
+                        <RankList playerID={this.state.id} />
                     </div>
                 )
             case "how to play":
@@ -363,6 +383,7 @@ export default class controller extends React.Component {
                 //NOt sure if this case is necessary. Might need to delete later
                 return (
                     <div>
+                        <GameHeader setNewPage={this.destinationResponse} />
                         <PlayerGrid tableVals={this.state.playerArray} />
                         <EnemyGrid tableVals={this.state.enemyArray} onClick={() => { }} />
                     </div>
@@ -370,49 +391,75 @@ export default class controller extends React.Component {
             case "lock":
                 return (
                     <div>
+                        <GameHeader setNewPage={this.destinationResponse} />
                         <h2>Enemy Turn</h2>
                         <h3>Wait for opponent to make their move</h3>
-                        <PlayerGrid tableVals={this.state.playerArray} />
-                        <EnemyGrid tableVals={this.state.enemyArray} onClick={() => { }} />
+                        <div className = "game">
+                        {/* <CardColumns className="mx-auto d-flex justify-content-center flex-wrap"> */}
+                            <PlayerGrid tableVals={this.state.playerArray} />
+                            <EnemyGrid tableVals={this.state.enemyArray} onClick={() => { }} />
+                        {/* </CardColumns> */}
+                        </div>
                     </div>
                 )
             case "move":
                 return (
                     <div>
+                        <GameHeader setNewPage={this.destinationResponse} />
                         <h2>Your turn</h2>
                         <h3>Click enemy grid to make a move</h3>
-                        <PlayerGrid tableVals={this.state.playerArray} />
-                        <EnemyGrid tableVals={this.state.enemyArray} onClick={this.attack} />
+                        <div className = "game">
+
+                        {/* <CardColumns className="mx-auto d-flex justify-content-center flex-wrap"> */}
+                            <PlayerGrid tableVals={this.state.playerArray} />
+                            <EnemyGrid tableVals={this.state.enemyArray} onClick={this.attack} />
+                        {/* </CardColumns> */}
+                        </div>
                     </div>
                 )
             case "win":
                 return (
                     <div>
-                        <h1>You won! :)</h1>
-                        <button onClick={() => this.goToShipSelect()}>Play another game</button>
+                        <PreGameHeader setNewPage={this.destinationResponse} />
+                        <Card className="text-center">
+                            <Card.Header>You Win! :)</Card.Header>
+                            <Card.Body>
+                                <Button variant="success" onClick={() => this.goToShipSelect()}>Play another game</Button>
+                            </Card.Body>
+                        </Card>
                     </div>
                 )
             case "lose":
                 return (
                     <div>
-                        <h1>You lose! :(</h1>
-                        <button onClick={() => this.goToShipSelect()}>Play another game</button>
+                        <PreGameHeader setNewPage={this.destinationResponse} />
+                        <Card className="text-center">
+                            <Card.Header>You Lose! :(</Card.Header>
+                            <Card.Body>
+                                <Button variant="danger" onClick={() => this.goToShipSelect()}>Play another game</Button>
+                            </Card.Body>
+                        </Card>
                     </div>
                 )
             case "terminate":
                 return (
                     <div>
-                        <h1>Your opponent left the game. The game has been terminated</h1>
-                        <button onClick={() => this.goToShipSelect()}>Play another game</button>
+                        <PreGameHeader setNewPage={this.destinationResponse} />
+                        <Card className="text-center">
+                            <Card.Header>Your opponent left the game. The game has been terminated</Card.Header>
+                            <Card.Body>
+                                <Button variant="warning" onClick={() => this.goToShipSelect()}>Play another game</Button>
+                            </Card.Body>
+                        </Card>
                     </div>
                 )
             default:
-                if(sessionStorage.getItem("Login") ==="true"){
-                    if(sessionStorage.getItem("Role") === "Admin"){
-                        this.setState({status: "admin"})
+                if (sessionStorage.getItem("Login") === "true") {
+                    if (sessionStorage.getItem("Role") === "Admin") {
+                        this.setState({ status: "admin" })
                     }
-                    else{
-                        this.setState({status:"ship select"})
+                    else {
+                        this.setState({ status: "ship select" })
                     }
                 }
                 return (<div>
@@ -428,9 +475,9 @@ export default class controller extends React.Component {
         //const isLogged=this.state.status
         //Add a logout
         //TODO
-            
-        
-        
+
+
+
         return (
             <div>
                 {this.renderActiveComponent()}

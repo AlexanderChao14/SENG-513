@@ -14,6 +14,7 @@ export default class RankList extends React.Component {
 
   static getDerivedStateFromProps(props, state) {
     return {
+      playerID: props.playerID
     };
   }
 
@@ -32,6 +33,7 @@ export default class RankList extends React.Component {
         if (res?.statusCode === 200) {
           console.log(res);
           console.log(res.body.rankinglist)
+          // console.log(res.body.rankinglist[0].userId)
           this.setState({ RankList: res.body.rankinglist });
         }
         else {
@@ -49,27 +51,29 @@ export default class RankList extends React.Component {
   render() {
 
     return (
-      <div>
+      <div key = "rank-div">
         <Table striped bordered hover key="ranktable">
           <thead key="thead1">
             <tr key="headers">
-              <td key="winCount"># of Wins</td>
               <td key="username">Name</td>
+              <td key="winCount"># of Wins</td>
             </tr>
           </thead>
           <tbody key="tbody">
             {this.state.RankList.map((element) => {
               let style = 'normal'
-              if (element.userID === this.state.playerID) {
+              console.log(element.userId)
+              console.log(this.state.userID)
+              if (element.userId === this.state.playerID) {
                 style='bold'
               }
               return (
                 <tr key={element.userID} style={{'fontWeight':style}}>
-                  <td key='1'>
-                    {element.wins}
-                  </td>
                   <td key='2'>
                     {element.firstName}
+                  </td>
+                  <td key='1'>
+                    {element.wins}
                   </td>
                 </tr>
               )

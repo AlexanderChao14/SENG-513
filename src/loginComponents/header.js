@@ -35,7 +35,7 @@ class Header extends React.Component{
     render(){
             return(
                 <>
-                <Navbar bg="dark" variant="dark">
+                <Navbar bg="dark" variant="dark" expand="sm">
                     <Navbar.Brand>Battleship</Navbar.Brand>
                     <Nav className="mr-auto">
 

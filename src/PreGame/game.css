@@ -11,11 +11,6 @@ ol, ul {
   padding-left: 30px;
 }
 
-.board-row:after {
-  clear: both;
-  content: "";
-  display: table;
-}
 
 .status {
   margin-bottom: 10px;
@@ -36,18 +31,15 @@ ol, ul {
   width: 34px;
 }
 
-.square:focus {
-  outline: none;
-}
-
-.kbd-navigation .square:focus {
-  background: #ddd;
-}
 
 .game {
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-evenly;
+  align-content: center;
+  flex-wrap: wrap;
+  
 }
 
 .shiplist{
@@ -55,19 +47,37 @@ ol, ul {
   flex-direction: column;
 }
 
+.ship-section{
+  width: 344px;
+}
+
 .game-info {
   margin-left: 20px;
 }
 
 .board {
-  width: 344px;
+  width: 330px;
+  max-width: 330px;
   height: 330px;
+}
+.board-div{
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-items: center;
+  justify-content: center;
 }
 
 .play-ready{
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+@media screen and (max-width: 768px) {
+  .game{
+    flex-direction: column;
+  }
 }
 
 

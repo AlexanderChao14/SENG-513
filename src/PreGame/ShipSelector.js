@@ -2,6 +2,7 @@ import React from 'react';
 import './game.css'
 import Board from './Board.js'
 import ShipList from './ShipList.js'
+import { Card, CardColumns,CardDeck } from 'react-bootstrap';
 
 
 const SHIPS = [
@@ -46,9 +47,9 @@ export default class ShipSelector extends React.Component {
             placedShips: [],
             availableShips: SHIPS,
             currentlyPlacing: null,
-            startQueue:props.startQueue,
-            updatePlayerGrid:props.updatePlayerGrid,
-            tableVals:[
+            startQueue: props.startQueue,
+            updatePlayerGrid: props.updatePlayerGrid,
+            tableVals: [
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -59,28 +60,28 @@ export default class ShipSelector extends React.Component {
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-              ]
+            ]
         };
-        this.selectShip=this.selectShip.bind(this);
-        this.placeShip=this.placeShip.bind(this);
-        this.restartPlacement=this.restartPlacement.bind(this)
-        this.rotateShip=this.rotateShip.bind(this)
-        this.queuePressed=this.queuePressed.bind(this)
-        this.setGrid=this.setGrid.bind(this)
+        this.selectShip = this.selectShip.bind(this);
+        this.placeShip = this.placeShip.bind(this);
+        this.restartPlacement = this.restartPlacement.bind(this)
+        this.rotateShip = this.rotateShip.bind(this)
+        this.queuePressed = this.queuePressed.bind(this)
+        this.setGrid = this.setGrid.bind(this)
 
     }
-    
+
     static getDerivedStateFromProps(props, state) {
         return {
-            startQueue:props.startQueue,
+            startQueue: props.startQueue,
         };
-      }
+    }
 
-    selectShip(shipName){
+    selectShip(shipName) {
         console.log(shipName)
         let shipIdx = this.state.availableShips.findIndex((ship) => ship.name === shipName);
         console.log(shipIdx)
-        let shipToPlace = this.state.availableShips.find(i=>i.name===shipName)
+        let shipToPlace = this.state.availableShips.find(i => i.name === shipName)
         console.log("Ship To place")
         console.log(shipToPlace)
 
@@ -99,7 +100,7 @@ export default class ShipSelector extends React.Component {
             placedShips: [],
             availableShips: SHIPS,
             currentlyPlacing: null,
-            tableVals:[
+            tableVals: [
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -110,7 +111,7 @@ export default class ShipSelector extends React.Component {
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-              ]
+            ]
         })
     }
 
@@ -129,47 +130,59 @@ export default class ShipSelector extends React.Component {
         let newshiplist = this.state.availableShips.filter((ship) => ship.name !== this.state.currentlyPlacing[0].name)
         console.log(newshiplist)
 
-        this.setState({availableShips:newshiplist});
+        this.setState({ availableShips: newshiplist });
         this.setState({ currentlyPlacing: null });
     }
 
     rotateShip() {
         console.log("Rotate")
-        if(this.state.currentlyPlacing !=null){
-            let updatedOrientation = {...this.state.currentlyPlacing}
-            updatedOrientation[0].orientation = updatedOrientation[0].orientation!=='horizontal' ? 'horizontal':'vertical';
+        if (this.state.currentlyPlacing != null) {
+            let updatedOrientation = { ...this.state.currentlyPlacing }
+            updatedOrientation[0].orientation = updatedOrientation[0].orientation !== 'horizontal' ? 'horizontal' : 'vertical';
             console.log(updatedOrientation);
-            this.setState({currentlyPlacing:updatedOrientation})
+            this.setState({ currentlyPlacing: updatedOrientation })
         }
     }
-    queuePressed(){
+    queuePressed() {
         this.state.startQueue(this.state.tableVals)
     }
 
-    setGrid(){
+    setGrid() {
         this.state.updatePlayerGrid(this.state.tableVals)
     }
 
     render() {
 
         return (
-            <div className="game">
-                <ShipList
-                availableShips={this.state.availableShips}
-                selectShip={this.selectShip}
-                currentlyPlacing={this.state.currentlyPlacing}
-                startQueue={this.queuePressed}
-                restartPlacement={this.restartPlacement}
-                rotateShip={this.rotateShip}
-                />
-                <div className="game-board">
-                    <Board title="Place your Ships" 
-                    currentlyPlacing={this.state.currentlyPlacing}
-                    rotateShip={this.rotateShip}
-                    placeShip={this.placeShip}
-                    tableVals={this.state.tableVals}
-                    updatePlayerGrid={this.setGrid}/>
-                </div>
+            <div className="game" >
+                {/* <CardDeck className="mx-auto d-flex justify-content-center" style={{columnCount: 1}}> */}
+
+                    <Card className="text-center" style={{width:"360px"}}>
+                        <Card.Header>Your Available Ships:</Card.Header>
+                        <Card.Body>
+                            <ShipList
+                                availableShips={this.state.availableShips}
+                                selectShip={this.selectShip}
+                                currentlyPlacing={this.state.currentlyPlacing}
+                                startQueue={this.queuePressed}
+                                restartPlacement={this.restartPlacement}
+                                rotateShip={this.rotateShip}
+                            />
+                        </Card.Body>
+                    </Card>
+                    <Card className="text-center">
+                        <Card.Header>Your Board:</Card.Header>
+                        <Card.Title>Place your Ships Here:</Card.Title>
+                        <Card.Body>
+                            <Board
+                                currentlyPlacing={this.state.currentlyPlacing}
+                                rotateShip={this.rotateShip}
+                                placeShip={this.placeShip}
+                                tableVals={this.state.tableVals}
+                                updatePlayerGrid={this.setGrid} />
+                        </Card.Body>
+                    </Card>
+                {/* </CardDeck> */}
             </div>
         );
     }

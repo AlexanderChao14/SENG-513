@@ -1,7 +1,7 @@
 import React from 'react';
 import './game.css'
 import Board from './Board.js'
-
+import { Card } from 'react-bootstrap';
 
 
 
@@ -24,13 +24,13 @@ export default class EnemyGrid extends React.Component {
     render() {
 
         return (
-            <div className="game">
-                <div className="game-board">
-                    <Board title="Enemies Grid" 
-                    tableVals={this.state.tableVals}
-                    onClick={this.state.onClick}/>
-                </div>
-            </div>
+            <Card className="text-center">
+            <Card.Header>Enemies Grid</Card.Header>
+            <Card.Body>
+                <Board tableVals={this.state.tableVals} 
+                onClick={this.state.onClick}/>
+            </Card.Body>
+        </Card>
         );
     }
 }

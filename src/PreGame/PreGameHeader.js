@@ -65,7 +65,7 @@ class PreGameHeader extends React.Component{
     render(){
             return(
                 <>
-                <Navbar bg="dark" variant="dark">
+                <Navbar bg="dark" variant="dark" expand="sm">
                     <Navbar.Brand>Battleship</Navbar.Brand>
                     <Nav className="mr-auto">
                         <Nav.Link name="toShipSelect" value ="toShipSelect" onClick={this.goToShipSelect}>Ship Select</Nav.Link>

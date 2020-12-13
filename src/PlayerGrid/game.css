@@ -11,12 +11,6 @@ ol, ul {
   padding-left: 30px;
 }
 
-.board-row:after {
-  clear: both;
-  content: "";
-  display: table;
-}
-
 .status {
   margin-bottom: 10px;
 }
@@ -53,4 +47,17 @@ ol, ul {
   margin-left: 20px;
 }
 
+.board {
+  width: 330px;
+  max-width: 330px;
+  height: 330px;
+}
+
+.board-div{
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-items: center;
+  justify-content: center;
+}
 
