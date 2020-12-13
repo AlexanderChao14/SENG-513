@@ -2,26 +2,32 @@ import React, { useEffect, useState, } from 'react';
 import axios from 'axios';
 
 
+
 function OnlineUsers(){
 
     
 
 
 
-    const url = "https://01vablvh7h.execute-api.us-east-1.amazonaws.com/dev/getonlineuser"
-    const [product, setProduct] = useState(null);
+    let content = null;        
+    const [data, setData] = useState(null);
 
-    let content = null;
+    const fetchData = () => {
+        fetch("https://01vablvh7h.execute-api.us-east-1.amazonaws.com/dev/getonlineuser")
+            .then(res => res.json())
+            .then(json => setData(json));
+    }
+
     useEffect(() => {
-        axios.get(url)
-            .then(response => {
-                setProduct(response.data)
-        })
-    } , [url])
+        fetchData();
+    }, []);
 
-  
+    //call every 30 seconds to update table
+    setInterval(() => {
+        fetchData();
+      }, 30000);
 
-    if(product){
+    if(data){
         return (
             <div>
                 <h1>Online Users</h1>
@@ -38,7 +44,7 @@ function OnlineUsers(){
                 </thead>
                 <tbody>
                     
-                    {product.body.map(user => (
+                    {data.body.map(user => (
                     <tr>
                         <th scope="row" style={{backgroundColor: "whitesmoke"}} key={user.firstName}>{user.firstName}</th>
                         <td key={user.lastName}>{user.lastName}</td>
