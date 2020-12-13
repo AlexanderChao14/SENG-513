@@ -1,74 +1,79 @@
-import React, {Component } from "react";
-
-class onlineUsers extends Component {
-
+import React, { useEffect, useState, } from 'react';
+import axios from 'axios';
 
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      items: [],
-      isLoaded: false,
+function OnlineUsers(){
+
+    
+
+    let content = null;        
+    const [data, setData] = useState(null);
+
+    const fetchData = () => {
+        fetch("https://01vablvh7h.execute-api.us-east-1.amazonaws.com/dev/getonlineuser")
+            .then(res => res.json())
+            .then(json => setData(json));
     }
-  }
 
+    useEffect(() => {
+        fetchData();
+    }, []);
 
-  componentDidMount() {
-    fetch('https://01vablvh7h.execute-api.us-east-1.amazonaws.com/dev/getonlineuser')
-      .then(response => response.json())
-      .then(json => {
-        this.setState({
-          isLoaded: true,
-          items: json,   })
-          console.log(json);
-      });
-  }
+    //call every 30 seconds to update table
+    setInterval(() => {
+        fetchData();
+      }, 30000);
 
-  render() {
-    var {isLoaded, items} = this.state;
-
-    if(!isLoaded){
-      return <div>Loading...</div>
-    }
-    else{
-      return (
-        
-      <div class ="contatainer">
-        <h1>Online Users</h1>
-
-        <table class="table">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Role</th>
-              </tr>
-            </thead>
-            <tbody>
-
-            {items.body.map(row => {
+    if(data){
         return (
-            <tr>
-                <th scope="row" style={{backgroundColor: "whitesmoke"}} key={row.firstName}>{row.firstName}</th>
-                <td style={{backgroundColor: "whitesmoke"}} >{row.lastName}</td>
-                <td style={{backgroundColor: "whitesmoke"}} >{row.email}</td>
-                <td style={{backgroundColor: "whitesmoke"}} >{row.role}</td>
-            </tr>
-            );
-          })}       
+            <div>
+                <h1>Online Users</h1>
+                <table className ="table">
+                <thead className="thead-dark">
+                    <tr>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Role</th>
 
-              </tbody>
-          </table>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    {data.body.map(user => (
+                    <tr>
+                        <th scope="row" style={{backgroundColor: "whitesmoke"}} key={user.firstName}>{user.firstName}</th>
+                        <td key={user.lastName}>{user.lastName}</td>
+                        <td key={user.email}>{user.email}</td>
+                        <td key={user.role}>{user.role}</td>
 
-      
+                        
+                    </tr>
+                        ))
+                    }
+                    
+   
+
+                </tbody>
 
 
-        </div>
-      )
+                </table>
+
+
+
+            </div>
+        )
     }
 
-  }
+    return (
+
+        <div>
+            {content}
+        </div>
+    )
+       
+
 }
 
-export default onlineUsers;
+export default OnlineUsers;
