@@ -11,21 +11,28 @@ function OnlineUsers(){
 
     let content = null;        
     const [data, setData] = useState(null);
-
+    
+    
     const fetchData = () => {
+        console.log("I'm here")
         fetch("https://01vablvh7h.execute-api.us-east-1.amazonaws.com/dev/getonlineuser")
             .then(res => res.json())
             .then(json => setData(json));
     }
 
     useEffect(() => {
-        fetchData();
+        const interval = setInterval(() => {
+            fetchData();
+          }, 10000);
+          return ()=>{
+              clearInterval(interval)
+          }
     }, []);
 
     //call every 30 seconds to update table
-    setInterval(() => {
-        fetchData();
-      }, 30000);
+    // setInterval(() => {
+    //     fetchData();
+    //   }, 10000);
 
     if(data){
         return (
@@ -43,7 +50,6 @@ function OnlineUsers(){
                     </tr>
                 </thead>
                 <tbody>
-                    
                     {data.body.map(user => (
                     <tr>
                         <th scope="row" style={{backgroundColor: "whitesmoke"}} key={user.firstName}>{user.firstName}</th>
