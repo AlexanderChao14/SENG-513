@@ -1,37 +1,126 @@
 import React from "react"
 import AuthVerify from "./authverify"
-import Header from "./header"
 import {Link} from "react-router-dom"
+import {  Alert } from 'react-bootstrap';
 import "./othercomp.css"
 
 class Verify extends React.Component{
     constructor(props){
         super();
+        this.state={
+            message:""
+        }
         this.waiting = this.waiting.bind(this)
+        this.getMessage = this.getMessage.bind(this)
+        this.getUrlParams = this.getUrlParams.bind(this)
+    }
+
+    getMessage(newMess){
+        this.setState({message: newMess})
+        console.log(newMess)
+        console.log("$$$$", this.state.message)
     }
 
     waiting(){
         console.log("About to start")
-        var gotoVerify = AuthVerify()
+        var gotoVerify = AuthVerify(this.getMessage)
         console.log("Got it")
         console.log(gotoVerify)
     }
 
-    render(){
-        return(
-            <div>
-                {/* <Header/> */}
-                <h1>Verify</h1>
-                <div> 
-                {this.waiting()}
-                    <p> You are verfied :D</p>
-                </div>
-                <div id="link">
-                <Link to="/">To Login</Link>
 
+    getUrlParams() {
+        var p = {};
+        var match,
+          pl     = /\+/g,
+          search = /([^&=]+)=?([^&]*)/g,
+          decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+          query  = window.location.search.substring(1);
+        while (match = search.exec(query))
+          p[decode(match[1])] = decode(match[2]);
+        return p;
+      }
+
+    componentDidMount() {
+        console.log("running")
+        var urlParams = this.getUrlParams();
+          if (!('email' in urlParams) || !('verify' in urlParams)) {
+            console.log('Please specify email and verify token in the URL.');
+            // this.getMessage("Please specify email and verify token in the URL.")
+            this.setState({message: 'Please specify email and verify token in the URL.'})
+          } else {
+            console.log('Verifying...');
+            var input = {
+              email: urlParams['email'],
+              verify: urlParams['verify']
+            };
+        
+            console.log("input: ", input);
+            fetch("http://battleship.us-east-1.elasticbeanstalk.com/verifyemail", {
+                body: JSON.stringify(input),
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                method: "POST",
+                })
+                .then(response => response.json())
+                .then((res) => {
+                    console.log("Response", res);
+                   
+                   
+                    if(res?.statusCode ===200){
+        
+                      console.log(res?.body?.message);
+                      
+                    //   this.getMessage(res.body.message)
+                      this.setState({message: res.body.message})
+                    }
+                    else{
+                      console.log(res?.body?.message);;
+                    //   this.getMessage(res.body.message)
+                      this.setState({message: res.body.message})
+                    } 
+                })
+                .catch((err) => {
+                    console.log("###error: ",err);
+                });
+          }
+    
+    }
+
+    render(){
+        var colour = "danger";
+        if(this.state.message !== ""){
+            if(this.state.message ==="your inforamtion has updated sucessfully"){
+                colour ="success"
+            }
+            return(
+                <div>
+                    <h1>Verify</h1>
+                    {console.log(this.state.message)} 
+                    <Alert variant={colour}>
+                        <p> {this.state.message}</p>
+                    </Alert>
+                    
+                    <div id="link">
+                    <Link to="/">To Login</Link>
+
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        }else{
+            return(
+                <div>
+                    <h1>Verify</h1>
+                   
+                    <h2>Loading...</h2>
+                    <div id="link">
+                    <Link to="/">To Login</Link>
+    
+                    </div>
+                </div>
+            )
+        }
     }
 }
 

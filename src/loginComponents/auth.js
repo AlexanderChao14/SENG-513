@@ -2,10 +2,15 @@ function Auth(email, pass, callback){
     var status
     var userRole
     var first
+    var message
     if(email == null || email === ''){
         console.log("Please use enter a email");
+        message="Please use enter a email"
+        callback(status,email, userRole, first,message)
     } else if(pass == null || pass === ''){
         console.log("plese eneter in real password");
+        message="plese eneter in real password"
+        callback(status,email, userRole, first,message)
     }else{
         var input = {
             email: email,
@@ -33,8 +38,9 @@ function Auth(email, pass, callback){
                 console.log("you have been log in successfully");
                 console.log(status)
                 console.log(email)
+                message = res.body.message
                 userRole = res.body.role
-                callback(status,email, userRole, first)
+                callback(status,email, userRole, first,message)
                 return status
                 
             }
@@ -42,8 +48,9 @@ function Auth(email, pass, callback){
                 status = res.body.login
                 first=res.body.firstName
                 userRole = res.body.role
+                message = res.body.message
                 console.log(res?.body?.message);
-                callback(status,email, userRole,first)
+                callback(status,email, userRole,first,message)
                 return status
             }
         })
