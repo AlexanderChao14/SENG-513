@@ -54,7 +54,7 @@ class ResetPass extends React.Component{
     render(){
         var colour="danger"
         if(this.state.message !== ""){
-            if(this.state.message ==="A confirmation email has been sent to you by email."){
+            if(this.state.message ==="User password changed successfully."){
                 colour ="success"
             }
         return(
