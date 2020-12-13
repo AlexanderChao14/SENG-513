@@ -1,5 +1,7 @@
 import React, { useEffect, useState, } from 'react';
 import axios from 'axios';
+import "./adminstyle.css";
+import { Alert } from 'react-bootstrap';
 
 
 
@@ -9,11 +11,13 @@ import axios from 'axios';
 function AllUsers(){
 
 
-    function deactivateUser(email){
-        console.log("deactivating " + email);
+    
+    function deactivateUser(email,){
+       
+
+
         let input = {email:email};
         
-          
       
           console.log("input: ", input);
           fetch("https://01vablvh7h.execute-api.us-east-1.amazonaws.com/dev/deactiveuser", {
@@ -27,11 +31,12 @@ function AllUsers(){
               .then((res) => {
                   console.log("Response", res);
                   
-            
                   if(res?.statusCode ===200) {
+                      
                     
                    
                   }
+                    fetchData();
                   
                   
               })
@@ -39,6 +44,8 @@ function AllUsers(){
                   console.log("###error: ",err);
                   
               });
+
+              
     
             }
 
@@ -58,11 +65,11 @@ function AllUsers(){
                     .then((res) => {
                         console.log("Response", res);
                         
-                
                         if(res?.statusCode ===200) {
-                        
+                           
                         
                         }
+                        fetchData();
                         
                         
                     })
@@ -73,23 +80,53 @@ function AllUsers(){
         
                 }
             
+        let content = null;        
+        const [data, setData] = useState(null);
 
-    const url = "https://01vablvh7h.execute-api.us-east-1.amazonaws.com/dev/getallregistereduser"
-    const [product, setProduct] = useState(null);
-
-    let content = null;
-    useEffect(() => {
-        axios.get(url)
-            .then(response => {
-                setProduct(response.data)
-        })
-    } , [url])
-
+        const fetchData = () => {
+            fetch("https://01vablvh7h.execute-api.us-east-1.amazonaws.com/dev/getallregistereduser")
+                .then(res => res.json())
+                .then(json => setData(json));
+        }
+    
+        useEffect(() => {
+            fetchData();
+        }, []);
+    
+    function logout(){
+        sessionStorage.clear();
+    }
   
 
-    if(product){
+    if(data){
+        
         return (
             <div>
+                
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+          <a className="navbar-brand" >ADMIN</a>
+          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+        
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav mr-auto">
+              
+      
+            </ul>
+            <span className="navbar-text">
+              
+            <ul className="navbar-nav mr-auto">
+              
+                <li className="nav-item">
+                    <a className="nav-link"href="" onClick={logout}>Log out</a>
+                  </li>
+            </ul>
+            </span>
+         
+          </div>
+        </nav>
+        <div id="alluserarea">
                 <h1>All Users</h1>
                 <table className ="table">
                 <thead className="thead-dark">
@@ -104,7 +141,7 @@ function AllUsers(){
                 </thead>
                 <tbody>
                     
-                    {product.body.map(user => {
+                    {data.body.map(user => {
                         if (user.role ==="Admin") {
                             return(
                                 <tr>
@@ -115,26 +152,39 @@ function AllUsers(){
                                     
                                 </tr>
                         
-                            )
-                        }
-
-                        else{
-                            return(
+                        )
+                    }
+                    
+                    if (user.adminVerified === true){
+                        return(
+                            <tr>
+                                        <th scope="row" style={{backgroundColor: "whitesmoke"}} key={user.firstName}>{user.firstName}</th>
+                                        <td key={user.lastName}>{user.lastName}</td>
+                                        <td key={user.email}>{user.email}</td>
+                                        <td key={user.role}>{user.role}</td>
+                                        <td><button onClick= {() => deactivateUser(user.email)} style={{color: "green"}} >Active</button></td>
+                                        <td><button onClick= {() => deleteUser(user.email)} style={{color: "red"}} >Delete</button></td>
+                                    </tr>
+                                )
+                            }
+                            else {
+                                return(
                                     <tr>
                                         <th scope="row" style={{backgroundColor: "whitesmoke"}} key={user.firstName}>{user.firstName}</th>
                                         <td key={user.lastName}>{user.lastName}</td>
                                         <td key={user.email}>{user.email}</td>
                                         <td key={user.role}>{user.role}</td>
-                                        <td><button onClick= {() => deactivateUser(user.email)} style={{color: "red"}} >Active/Deactive</button></td>
+                                    <td><button onClick= {() => deactivateUser(user.email)} style={{color: "red"}} >Unactive{user.adminVerified}</button></td>
                                         <td><button onClick= {() => deleteUser(user.email)} style={{color: "red"}} >Delete</button></td>
                                     </tr>
                                 )
                             }
-                    
+                            
                         })}
                     
                 </tbody>
                 </table>
+                        </div>
             </div>
         )
     }
@@ -148,5 +198,6 @@ function AllUsers(){
        
 
 }
+
 
 export default AllUsers;
