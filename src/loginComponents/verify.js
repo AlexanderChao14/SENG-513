@@ -91,7 +91,7 @@ class Verify extends React.Component{
     render(){
         var colour = "danger";
         if(this.state.message !== ""){
-            if(this.state.message ==="your inforamtion has updated sucessfully"){
+            if(this.state.message ==="You has been Verified, thanks!"){
                 colour ="success"
             }
             return(
