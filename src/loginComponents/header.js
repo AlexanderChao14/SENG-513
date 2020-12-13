@@ -1,5 +1,5 @@
 import React from "react";
-import "./headercss.css"
+import { Nav, Navbar } from 'react-bootstrap';
 
 class Header extends React.Component{
     constructor(props){
@@ -34,14 +34,20 @@ class Header extends React.Component{
 
     render(){
             return(
-                <div id="head">
-                    <h1>Battleship</h1>
-                    <div id="tab">
-                        <button name="toLogin" value ="toLogin" onClick={this.goToLogin}>Login Page</button>
-                        <button name="toSignup"  value = "toSignup" onClick={this.goToSignUp}>Sign Up Page</button>
-                        <button name="toSignup"  value = "toLost" onClick={this.goToLost}>Lost Your Password?</button>
-                    </div>
-                </div>
+                <>
+                <Navbar bg="dark" variant="dark">
+                    <Navbar.Brand>Battleship</Navbar.Brand>
+                    <Nav className="mr-auto">
+
+                        <Nav.Link name="toLogin" value ="toLogin" onClick={this.goToLogin}>Login Page</Nav.Link>
+                        <Nav.Link name="toSignup"  value = "toSignup" onClick={this.goToSignUp}>Sign Up Page</Nav.Link>
+                        <Nav.Link name="toSignup"  value = "toLost" onClick={this.goToLost}>Lost Your Password?</Nav.Link>
+                    </Nav>
+                </Navbar>
+                
+                </>
+
+                
             );
         }
 }

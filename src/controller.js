@@ -12,6 +12,8 @@ import Signup from "./loginComponents/signup"
 import Lost from "./loginComponents/lostpass"
 import Admin from "./adminComponents/admin"
 
+import UpdateUser from "./PreGame/updateUser"
+
 export default class controller extends React.Component {
     constructor() {
         super();
@@ -40,10 +42,10 @@ export default class controller extends React.Component {
         this.waitingList = this.waitingList.bind(this);
 
         this.destinationResponse = this.destinationResponse.bind(this);
-
     }
 
-    loginResponse(newStatus, email, role, first) {
+
+    loginResponse(newStatus, email,role, first) {
         if (newStatus === true) {
             console.log("Logged in as :" + email);
 
@@ -285,19 +287,38 @@ export default class controller extends React.Component {
     }
 
     renderActiveComponent() {
-
-
+        
         switch (this.state.status) {
+            case "logout":
+                sessionStorage.clear();
+                this.setState({status:"login"})
+                return 0;
+            case "update":
+                return(
+                <div>
+                    <PreGameHeader setNewPage={this.destinationResponse}/>
+                    <UpdateUser />
+
+                </div>
+                )
             case "login":
+                if(sessionStorage.getItem("Login") ==="true"){
+                    if(sessionStorage.getItem("Role") === "Admin"){
+                        this.setState({status: "admin"})
+                    }
+                    else{
+                        this.setState({status:"ship select"})
+                    }
+                }
                 return (<div>
                     <Header setNewPage={this.destinationResponse} />
                     <Login setLoginStatus={this.loginResponse} />
                 </div>)
             case "signup":
                 return (
-                    <div>
-                        <Header setNewPage={this.destinationResponse} />
-                        <Signup />
+                    <div onLoad = {this.isLogged}>
+                        <Header setNewPage={this.destinationResponse}/>
+                        <Signup/>
                     </div>
                 )
             case "lost":
@@ -386,6 +407,14 @@ export default class controller extends React.Component {
                     </div>
                 )
             default:
+                if(sessionStorage.getItem("Login") ==="true"){
+                    if(sessionStorage.getItem("Role") === "Admin"){
+                        this.setState({status: "admin"})
+                    }
+                    else{
+                        this.setState({status:"ship select"})
+                    }
+                }
                 return (<div>
                     <Header setNewPage={this.destinationResponse} />
                     <Login setLoginStatus={this.loginResponse} />
@@ -399,16 +428,9 @@ export default class controller extends React.Component {
         //const isLogged=this.state.status
         //Add a logout
         //TODO
-        // if(sessionStorage.getItem("Login") ==="true"){
-        //     if(sessionStorage.getItem("Role") === "Admin"){
-        //         this.setState({status: "admin"})
-        //     }
-        //     else{
-        //         this.setState({status:"login"})
-        //     }
-        // }
-
-
+            
+        
+        
         return (
             <div>
                 {this.renderActiveComponent()}

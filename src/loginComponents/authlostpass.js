@@ -1,9 +1,10 @@
-function AuthLostPassword(email,callback) {
+function AuthLostPassword(email,callback, callback2) {
     var status
     
     console.log('Password Lost...');
-    if (email.value === null || email.value === '') {
+    if (email === null || email === '') {
         console.log('Please specify your email address.');
+        callback2("Please specify your email address.")
     } else {
       var input = {
         email: email

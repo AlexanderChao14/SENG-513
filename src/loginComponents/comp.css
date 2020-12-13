@@ -5,7 +5,18 @@
     text-align: center;
     padding: 25px;
 }
-
+#area2{
+    margin-top: 0;
+    height: 70%;
+    align-items: center;
+    text-align: center;
+    
+}
+#area2 h1{
+    padding-bottom: 30px;
+    font-size: 24pt;
+    text-decoration: underline;
+}
 #area h1{
     padding-bottom: 30px;
     font-size: 24pt;
